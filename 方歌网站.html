@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>考研方歌大全</title>
+<style>
+/* ====== CSS VARIABLES & THEME SYSTEM ====== */
+:root {
+  --primary: #8b4513; --secondary: #a0522d; --bg: #f5f0eb;
+  --card-bg: #fff; --accent: #d4c4a8; --text: #4a3728;
+  --text-light: #a09080; --shadow: rgba(139,69,19,0.1);
+  --success: #4caf50; --danger: #f44336; --warning: #ff9800;
+  --header-gradient: linear-gradient(135deg, #8b4513, #a0522d, #6b3410);
+  --header-text: #f5deb3; --mascot-primary: #d4380d;
+  --radius: 12px; --transition: 0.3s ease;
+}
+body[data-mode="recite"] {
+  --primary: #c62828; --secondary: #d84315; --bg: #faf3f0;
+  --card-bg: #fffbfb; --accent: #ef9a9a; --text: #4a2020;
+  --text-light: #b09090; --shadow: rgba(198,40,40,0.1);
+  --header-gradient: linear-gradient(135deg, #c62828, #d84315, #8b0000);
+  --header-text: #ffcdd2; --mascot-primary: #d4380d;
+}
+body[data-mode="blank"] {
+  --primary: #2e7d32; --secondary: #43a047; --bg: #f1f8e9;
+  --card-bg: #fbfffc; --accent: #a5d6a7; --text: #1b3a1b;
+  --text-light: #90a090; --shadow: rgba(46,125,50,0.1);
+  --header-gradient: linear-gradient(135deg, #2e7d32, #43a047, #1b5e20);
+  --header-text: #c8e6c9; --mascot-primary: #2e7d32;
+}
+body[data-mode="test"] {
+  --primary: #1565c0; --secondary: #1976d2; --bg: #e8f0fe;
+  --card-bg: #fafcff; --accent: #90caf9; --text: #0d2137;
+  --text-light: #90a0b0; --shadow: rgba(21,101,192,0.1);
+  --header-gradient: linear-gradient(135deg, #1565c0, #1976d2, #0d47a1);
+  --header-text: #bbdefb; --mascot-primary: #1565c0;
+}
+
+/* ====== GLOBAL STYLES ====== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--transition),color var(--transition)}
+.header{background:var(--header-gradient);color:var(--header-text);text-align:center;padding:28px 20px;box-shadow:0 4px 20px rgba(0,0,0,0.2);transition:background var(--transition)}
+.header h1{font-size:2em;letter-spacing:4px;margin-bottom:6px}
+.header .subtitle{font-size:0.95em;opacity:0.85}
+.top-bar{display:flex;align-items:center;background:var(--card-bg);padding:10px 20px;box-shadow:0 2px 8px var(--shadow);position:sticky;top:0;z-index:99;gap:8px;flex-wrap:wrap;transition:background var(--transition)}
+.breadcrumb-nav{display:flex;align-items:center;gap:6px;font-size:0.9em;flex:1;min-width:0}
+.breadcrumb-nav a{color:var(--primary);text-decoration:none;cursor:pointer;padding:4px 8px;border-radius:4px;transition:background 0.2s;white-space:nowrap}
+.breadcrumb-nav a:hover{background:var(--bg);text-decoration:underline}
+.breadcrumb-nav .sep{color:var(--accent)}
+.breadcrumb-nav .current{color:var(--secondary);font-weight:bold}
+.search-bar{position:relative;flex-shrink:0}
+.search-bar input{padding:6px 14px;border:2px solid var(--accent);border-radius:20px;font-size:0.9em;outline:none;width:200px;transition:border-color 0.3s,width 0.3s;font-family:inherit;background:var(--card-bg);color:var(--text)}
+.search-bar input:focus{border-color:var(--primary);width:260px}
+.search-results{display:none;position:absolute;top:100%;right:0;background:var(--card-bg);border:1px solid var(--accent);border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.15);max-height:400px;overflow-y:auto;width:350px;z-index:200}
+.search-results.active{display:block}
+.result-item{padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--bg);transition:background 0.2s}
+.result-item:hover{background:var(--bg)}
+.result-item .fname{font-weight:bold;color:var(--primary)}
+.result-item .fpath{font-size:0.8em;color:var(--text-light);margin-top:2px}
+.main{max-width:1000px;margin:30px auto;padding:0 20px}
+.footer{text-align:center;padding:24px;color:var(--text-light);font-size:0.85em}
+
+/* ====== MODE ENTRY CARDS (Home Page) ====== */
+.mode-entries{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:30px}
+.mode-card{background:var(--card-bg);border-radius:16px;padding:24px;box-shadow:0 4px 16px var(--shadow);cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;position:relative;overflow:hidden;border-left:6px solid var(--primary)}
+.mode-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px var(--shadow)}
+.mode-card.recite{border-left-color:#c62828;background:linear-gradient(135deg,#fffbfb,#fff5f5)}
+.mode-card.blank{border-left-color:#2e7d32;background:linear-gradient(135deg,#fbfffc,#f5fff5)}
+.mode-card.test{border-left-color:#1565c0;background:linear-gradient(135deg,#fafcff,#f0f5ff)}
+.mode-card .mode-icon{font-size:2.5em;margin-bottom:12px}
+.mode-card h3{font-size:1.2em;margin-bottom:6px;color:var(--text)}
+.mode-card .mode-desc{font-size:0.85em;color:var(--text-light);margin-bottom:4px}
+.mode-card .mode-stat{font-size:0.8em;color:var(--primary);font-weight:bold}
+.mode-card .mode-badge{position:absolute;top:12px;right:12px;background:var(--primary);color:#fff;padding:3px 10px;border-radius:12px;font-size:0.75em;font-weight:bold}
+
+/* ====== CHAPTER CARDS (Home Page) ====== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{background:var(--card-bg);border-radius:var(--radius);padding:20px;box-shadow:0 3px 12px var(--shadow);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;border-left:4px solid var(--primary)}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 25px var(--shadow)}
+.card h3{color:var(--primary);margin-bottom:6px;font-size:1.1em}
+.card .count{color:var(--text-light);font-size:0.85em}
+
+/* ====== STATS SECTION (Home Page) ====== */
+.stats-bar{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.stat-item{flex:1;min-width:120px;background:var(--card-bg);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--shadow)}
+.stat-item .stat-num{font-size:2em;font-weight:bold;color:var(--primary)}
+.stat-item .stat-label{font-size:0.85em;color:var(--text-light);margin-top:4px}
+
+/* ====== CALENDAR HEATMAP ====== */
+.calendar-section{margin-bottom:24px;background:var(--card-bg);border-radius:12px;padding:20px;box-shadow:0 2px 8px var(--shadow)}
+.calendar-section h3{color:var(--primary);margin-bottom:12px}
+.heatmap{display:flex;gap:4px;flex-wrap:wrap;max-width:100%;overflow-x:auto}
+.heatmap-day{width:13px;height:13px;border-radius:3px;background:#e0e0e0;transition:transform 0.2s;cursor:default;flex-shrink:0}
+.heatmap-day:hover{transform:scale(1.4)}
+.heatmap-day.level-0{background:#ebedf0}
+.heatmap-day.level-1{background:#9be9a8}
+.heatmap-day.level-2{background:#40c463}
+.heatmap-day.level-3{background:#30a14e}
+.heatmap-day.level-4{background:#216e39}
+.heatmap-legend{display:flex;gap:4px;align-items:center;font-size:0.75em;color:var(--text-light);margin-top:8px}
+
+/* ====== MODE PAGE COMMON ====== */
+.mode-page{display:none}
+.mode-page.active{display:block}
+.mode-header{text-align:center;padding:20px;margin-bottom:20px}
+.mode-header .day-badge{display:inline-block;background:var(--primary);color:#fff;padding:6px 18px;border-radius:20px;font-size:1.1em;font-weight:bold;margin-bottom:8px}
+.mode-header .session-info{color:var(--text-light);font-size:0.9em}
+.progress-bar-container{background:#e0e0e0;border-radius:10px;height:10px;margin:16px 0;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--primary);border-radius:10px;transition:width 0.5s ease;min-width:0}
+.progress-labels{display:flex;justify-content:space-between;font-size:0.8em;color:var(--text-light)}
+
+/* ====== RECITE MODE CARD ====== */
+.recite-card-container{perspective:1000px;max-width:600px;margin:0 auto 20px}
+.recite-card{background:var(--card-bg);border-radius:16px;padding:32px 24px;box-shadow:0 8px 30px var(--shadow);min-height:280px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:transform 0.4s ease,opacity 0.4s ease;position:relative;overflow:hidden}
+.recite-card.slide-out-left{transform:translateX(-120%);opacity:0}
+.recite-card.slide-out-right{transform:translateX(120%);opacity:0}
+.recite-card.slide-in{transform:translateX(0);opacity:1}
+.recite-card .card-type-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:12px;font-size:0.75em;font-weight:bold;color:#fff}
+.recite-card .card-type-badge.new{background:#c62828}
+.recite-card .card-type-badge.review{background:#ff9800}
+.recite-card .chapter-name{font-size:0.9em;color:var(--text-light);margin-bottom:8px}
+.recite-card .formula-name{font-size:1.6em;font-weight:bold;color:var(--primary);margin-bottom:16px}
+.recite-card .formula-song{font-size:1.1em;line-height:2;color:var(--text);white-space:pre-wrap;word-break:keep-all;max-width:100%}
+.recite-card .card-counter{position:absolute;top:12px;right:12px;font-size:0.85em;color:var(--text-light)}
+.recite-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:600px;margin:0 auto}
+.btn-recite{padding:12px 28px;border:none;border-radius:25px;font-size:1em;font-weight:bold;cursor:pointer;transition:all 0.2s;font-family:inherit;outline:none;min-width:100px}
+.btn-recite:active{transform:scale(0.95)}
+.btn-mastered{background:#4caf50;color:#fff}
+.btn-normal{background:#ff9800;color:#fff}
+.btn-forgot{background:#f44336;color:#fff}
+.btn-recite:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.btn-recite:active{filter:brightness(0.95);transform:translateY(0)}
+
+/* ====== BLANK MODE ====== */
+.blank-container{max-width:650px;margin:0 auto}
+.blank-question{background:var(--card-bg);border-radius:16px;padding:28px 24px;box-shadow:0 4px 16px var(--shadow);text-align:center;margin-bottom:16px}
+.blank-question .formula-name{font-size:1.3em;font-weight:bold;color:var(--primary);margin-bottom:12px}
+.blank-question .formula-song-blanked{font-size:1.1em;line-height:2.2;color:var(--text)}
+.blank-question .blank-slot{display:inline-block;min-width:60px;border-bottom:3px solid var(--primary);margin:0 4px;padding:2px 8px;animation:blankPulse 2s infinite}
+@keyframes blankPulse{0%,100%{border-color:var(--primary)}50%{border-color:var(--accent)}}
+.blank-input-row{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.blank-input-row input{padding:10px 16px;border:2px solid var(--accent);border-radius:25px;font-size:1em;outline:none;width:260px;font-family:inherit;background:var(--card-bg);color:var(--text);transition:border-color 0.3s}
+.blank-input-row input:focus{border-color:var(--primary)}
+.btn-blank-submit{padding:10px 24px;background:var(--primary);color:#fff;border:none;border-radius:25px;font-size:1em;cursor:pointer;font-weight:bold;font-family:inherit;transition:all 0.2s}
+.btn-blank-submit:active{transform:scale(0.95)}
+.blank-feedback{padding:12px 20px;border-radius:12px;text-align:center;font-weight:bold;margin-bottom:12px;display:none}
+.blank-feedback.correct{background:#e8f5e9;color:#2e7d32;display:block;animation:correctFlash 0.5s}
+.blank-feedback.wrong{background:#ffebee;color:#c62828;display:block;animation:wrongShake 0.5s}
+.blank-score{margin-top:20px;text-align:center}
+.blank-score .final-score{font-size:3em;font-weight:bold;color:var(--primary)}
+.blank-difficulty-select{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.btn-difficulty{padding:10px 20px;border:2px solid var(--accent);border-radius:25px;cursor:pointer;font-size:0.9em;transition:all 0.2s;font-family:inherit;background:var(--card-bg);color:var(--text)}
+.btn-difficulty.active,.btn-difficulty:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* ====== TEST MODE ====== */
+.test-container{max-width:700px;margin:0 auto}
+.test-prompt{text-align:center;margin-bottom:20px}
+.test-prompt .formula-name-test{font-size:1.6em;font-weight:bold;color:var(--primary);margin-bottom:6px}
+.test-prompt .chapter-hint{font-size:0.9em;color:var(--text-light)}
+.test-input-area{width:100%;min-height:150px;padding:16px;border:2px solid var(--accent);border-radius:12px;font-size:1.05em;line-height:2;font-family:inherit;resize:vertical;background:var(--card-bg);color:var(--text);transition:border-color 0.3s;outline:none}
+.test-input-area:focus{border-color:var(--primary)}
+.test-submit-row{text-align:center;margin:16px 0}
+.btn-test-submit{padding:12px 36px;background:var(--primary);color:#fff;border:none;border-radius:25px;font-size:1.1em;cursor:pointer;font-weight:bold;font-family:inherit;transition:all 0.2s}
+.btn-test-submit:active{transform:scale(0.95)}
+.diff-container{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:600px){.diff-container{grid-template-columns:1fr}}
+.diff-panel{background:var(--card-bg);border-radius:12px;padding:20px;box-shadow:0 2px 8px var(--shadow)}
+.diff-panel h4{color:var(--primary);margin-bottom:10px;font-size:0.9em}
+.diff-panel.original h4{color:#2e7d32}
+.diff-panel.user h4{color:#c62828}
+.diff-content{font-size:1em;line-height:2;white-space:pre-wrap;word-break:keep-all}
+.diff-content .diff-match{color:inherit}
+.diff-content .diff-mismatch{background:#ffcdd2;color:#c62828;border-radius:2px;padding:0 2px}
+.diff-content .diff-missing{background:#fff3e0;color:#e65100;text-decoration:underline wavy}
+
+/* ====== MASCOT SYSTEM ====== */
+.mascot-zone{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px;min-height:100px}
+.mascot-container{position:relative;width:90px;height:110px;flex-shrink:0}
+.mascot-speech{background:var(--card-bg);border-radius:16px;padding:10px 16px;box-shadow:0 3px 12px var(--shadow);font-size:0.95em;color:var(--text);max-width:200px;position:relative;animation:speechPopIn 0.3s ease-out;display:none}
+.mascot-speech.show{display:block}
+.mascot-speech::after{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:var(--card-bg)}
+
+/* CSS Mascot: Scholar (小书童) */
+.mascot-scholar{position:relative;width:80px;height:110px}
+.ms-head{width:50px;height:50px;border-radius:50%;background:#ffe0bd;position:absolute;top:0;left:15px;transition:transform 0.3s}
+.ms-hair{width:16px;height:16px;border-radius:50%;background:#1a1a1a;position:absolute;top:-6px;left:32px}
+.ms-eye-l,.ms-eye-r{width:6px;height:7px;background:#1a1a1a;border-radius:50%;position:absolute;top:18px}
+.ms-eye-l{left:12px}.ms-eye-r{left:32px}
+.ms-mouth{width:12px;height:6px;border-radius:0 0 12px 12px;border:2px solid #1a1a1a;border-top:none;position:absolute;top:28px;left:19px;transition:all 0.3s}
+.ms-body{width:44px;height:52px;background:var(--mascot-primary);border-radius:12px 12px 2px 2px;position:absolute;top:46px;left:18px;transition:transform 0.3s}
+.ms-arm-l,.ms-arm-r{width:10px;height:30px;background:var(--mascot-primary);border-radius:5px;position:absolute;top:50px;transition:transform 0.3s}
+.ms-arm-l{left:5px;transform:rotate(15deg)}.ms-arm-r{left:65px;transform:rotate(-15deg)}
+.ms-scroll{width:34px;height:8px;background:#f5deb3;border-radius:4px;position:absolute;top:58px;left:23px;border:1px solid #c4a882}
+.ms-blush-l,.ms-blush-r{width:8px;height:5px;background:rgba(255,150,150,0.5);border-radius:50%;position:absolute;top:24px}
+.ms-blush-l{left:5px}.ms-blush-r{left:37px}
+
+/* CSS Mascot: Herbalist (小药童) */
+.mascot-herbalist{position:relative;width:80px;height:110px}
+.mh-head{width:50px;height:50px;border-radius:50%;background:#ffe0bd;position:absolute;top:0;left:15px}
+.mh-hat{width:40px;height:14px;background:#2e7d32;border-radius:7px 7px 0 0;position:absolute;top:-8px;left:20px}
+.mh-eye-l,.mh-eye-r{width:6px;height:7px;background:#1a1a1a;border-radius:50%;position:absolute;top:18px}
+.mh-eye-l{left:12px}.mh-eye-r{left:32px}
+.mh-mouth{width:12px;height:6px;border-radius:0 0 12px 12px;border:2px solid #1a1a1a;border-top:none;position:absolute;top:28px;left:19px;transition:all 0.3s}
+.mh-body{width:44px;height:48px;background:#43a047;border-radius:12px 12px 2px 2px;position:absolute;top:46px;left:18px}
+.mh-arm-l,.mh-arm-r{width:10px;height:28px;background:#43a047;border-radius:5px;position:absolute;top:50px}
+.mh-arm-l{left:5px}.mh-arm-r{left:65px}
+.mh-basket{width:30px;height:22px;background:#8d6e63;border-radius:6px;position:absolute;top:44px;left:25px}
+.mh-basket::after{content:'🌿';position:absolute;top:-10px;left:6px;font-size:12px}
+.mh-blush-l,.mh-blush-r{width:8px;height:5px;background:rgba(255,150,150,0.5);border-radius:50%;position:absolute;top:24px}
+.mh-blush-l{left:5px}.mh-blush-r{left:37px}
+
+/* CSS Mascot: Examiner (小考官) */
+.mascot-examiner{position:relative;width:80px;height:110px}
+.me-head{width:50px;height:50px;border-radius:50%;background:#ffe0bd;position:absolute;top:0;left:15px}
+.me-hat{width:44px;height:12px;background:#1565c0;border-radius:2px;position:absolute;top:-6px;left:18px}
+.me-hat::after{content:'';width:20px;height:6px;background:#1565c0;position:absolute;top:-6px;left:12px;border-radius:2px}
+.me-eye-l,.me-eye-r{width:6px;height:7px;background:#1a1a1a;border-radius:50%;position:absolute;top:18px}
+.me-eye-l{left:12px}.me-eye-r{left:32px}
+.me-glasses{width:34px;height:10px;border:2px solid #333;border-radius:5px;position:absolute;top:17px;left:8px;background:transparent}
+.me-mouth{width:12px;height:6px;border-radius:0 0 12px 12px;border:2px solid #1a1a1a;border-top:none;position:absolute;top:28px;left:19px;transition:all 0.3s}
+.me-body{width:44px;height:50px;background:#1976d2;border-radius:12px 12px 2px 2px;position:absolute;top:46px;left:18px}
+.me-arm-l,.me-arm-r{width:10px;height:30px;background:#1976d2;border-radius:5px;position:absolute;top:50px}
+.me-arm-l{left:5px}.me-arm-r{left:65px}
+.me-brush{width:4px;height:28px;background:#8d6e63;border-radius:2px;position:absolute;top:52px;left:63px}
+.me-blush-l,.me-blush-r{width:8px;height:5px;background:rgba(255,150,150,0.5);border-radius:50%;position:absolute;top:24px}
+.me-blush-l{left:5px}.me-blush-r{left:37px}
+
+/* Mascot Animations */
+.mascot-bounce{animation:mascotBounce 0.6s ease-out}
+.mascot-shake{animation:mascotShake 0.5s ease-out}
+.mascot-jump{animation:mascotJump 0.8s ease-out}
+.mascot-wave{animation:mascotWave 0.4s ease-in-out}
+[data-emotion="cheer"] .ms-mouth,[data-emotion="cheer"] .mh-mouth,[data-emotion="cheer"] .me-mouth{width:16px;height:10px;border-radius:0 0 16px 16px}
+[data-emotion="sad"] .ms-mouth,[data-emotion="sad"] .mh-mouth,[data-emotion="sad"] .me-mouth{width:10px;height:6px;border-radius:6px 6px 0 0;border-top:2px solid #1a1a1a;border-bottom:none;top:30px}
+[data-emotion="think"] .ms-eye-l,[data-emotion="think"] .mh-eye-l,[data-emotion="think"] .me-eye-l{height:3px;top:20px}
+[data-emotion="surprised"] .ms-mouth,[data-emotion="surprised"] .mh-mouth,[data-emotion="surprised"] .me-mouth{width:10px;height:10px;border-radius:50%;border:2px solid #1a1a1a;top:26px;left:20px}
+
+/* ====== ANIMATION KEYFRAMES ====== */
+@keyframes mascotBounce{0%{transform:translateY(0)}40%{transform:translateY(-22px)}60%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+@keyframes mascotShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes mascotJump{0%{transform:translateY(0) scale(1)}30%{transform:translateY(-40px) scale(1.15)}60%{transform:translateY(-15px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
+@keyframes mascotWave{0%,100%{transform:rotate(0)}25%{transform:rotate(8deg)}75%{transform:rotate(-8deg)}}
+@keyframes speechPopIn{0%{transform:scale(0);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@keyframes cardSlideInRight{0%{transform:translateX(120%);opacity:0}100%{transform:translateX(0);opacity:1}}
+@keyframes cardSlideInLeft{0%{transform:translateX(-120%);opacity:0}100%{transform:translateX(0);opacity:1}}
+@keyframes correctFlash{0%,100%{background:var(--card-bg)}50%{background:#e8f5e9;box-shadow:0 0 20px rgba(76,175,80,0.3)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+@keyframes confettiDrop{0%{transform:translateY(-100px) rotate(0deg);opacity:1}100%{transform:translateY(400px) rotate(720deg);opacity:0}}
+@keyframes ripple{0%{transform:scale(0);opacity:1}100%{transform:scale(2);opacity:0}}
+@keyframes fadeInUp{0%{transform:translateY(20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ====== BUTTONS & COMMON COMPONENTS ====== */
+.btn-back{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--primary);color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:0.95em;margin-bottom:16px;transition:all 0.2s;font-family:inherit}
+.btn-back:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.btn-back:active{transform:scale(0.96)}
+.section-title{font-size:1.5em;color:var(--text);margin:20px 0 16px;padding-bottom:10px;border-bottom:3px double var(--accent);display:flex;align-items:center;gap:10px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-light)}
+.empty-state .empty-icon{font-size:4em;margin-bottom:12px}
+.empty-state p{margin:6px 0;line-height:1.6}
+
+/* ====== COMPLETION SCREEN ====== */
+.completion-screen{text-align:center;padding:40px 20px;animation:fadeInUp 0.6s ease-out}
+.completion-screen .trophy{font-size:5em;animation:mascotJump 1s ease-out}
+.completion-screen h2{color:var(--primary);margin:16px 0;font-size:1.6em}
+.completion-screen .stats-summary{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.completion-summary-item{background:var(--card-bg);padding:20px;border-radius:12px;box-shadow:0 2px 8px var(--shadow);min-width:100px}
+.completion-summary-item .num{font-size:2em;font-weight:bold;color:var(--primary)}
+.completion-summary-item .lbl{font-size:0.85em;color:var(--text-light)}
+
+/* ====== SETTINGS PANEL ====== */
+.settings-panel{background:var(--card-bg);border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px var(--shadow)}
+.settings-panel h3{color:var(--primary);margin-bottom:12px}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bg)}
+.setting-row span{color:var(--text)}
+.setting-row input[type=number]{width:60px;padding:4px 8px;border:2px solid var(--accent);border-radius:8px;font-size:0.9em;text-align:center;font-family:inherit}
+.btn-small{padding:6px 14px;border:none;border-radius:12px;font-size:0.85em;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.btn-danger{background:#f44336;color:#fff}
+.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary)}
+
+/* ====== FORMULA LIST (Browse Mode) ====== */
+.formula-list{display:flex;flex-direction:column;gap:14px}
+.formula-card{background:var(--card-bg);border-radius:10px;padding:18px 22px;box-shadow:0 2px 10px var(--shadow);border:1px solid var(--accent);transition:box-shadow 0.2s}
+.formula-card:hover{box-shadow:0 4px 16px var(--shadow)}
+.formula-card .fh{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--accent)}
+.formula-card .fnum{background:var(--primary);color:#fff;min-width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85em;font-weight:bold;flex-shrink:0}
+.formula-card .fn{font-size:1.15em;font-weight:bold;color:var(--primary)}
+.formula-card .fsong{font-size:1.05em;line-height:2;color:var(--text);white-space:pre-wrap;word-break:break-all}
+
+/* ====== CONFETTI ====== */
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;animation:confettiDrop 2s ease-out forwards}
+
+/* ====== TOAST ====== */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:10px 24px;border-radius:25px;font-size:0.95em;z-index:1000;animation:fadeInUp 0.3s ease-out;box-shadow:0 4px 16px rgba(0,0,0,0.2);pointer-events:none}
+
+/* ====== RESPONSIVE ====== */
+@media(max-width:600px){
+  .header h1{font-size:1.4em}
+  .top-bar{padding:8px 12px}
+  .search-bar input{width:130px}
+  .search-bar input:focus{width:170px}
+  .card-grid{grid-template-columns:1fr}
+  .mode-entries{grid-template-columns:1fr}
+  .search-results{width:280px;right:-20px}
+  .recite-buttons{flex-direction:column;align-items:center}
+  .btn-recite{width:100%;max-width:260px}
+  .stats-bar{flex-direction:column}
+  .diff-container{grid-template-columns:1fr}
+  .mascot-zone{min-height:80px}
+  .mascot-container{width:65px;height:90px}
+  .mascot-scholar,.mascot-herbalist,.mascot-examiner{transform:scale(0.75);transform-origin:top center}
+  .mascot-speech{max-width:150px;font-size:0.85em}
+}
+@media print{
+  .header,.top-bar,.back-btn,.footer,.mode-entries,.stats-bar,.mascot-zone,.recite-buttons,.btn-back{display:none}
+  .formula-card{break-inside:avoid;box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 考研方歌大全</h1>
+  <div class="subtitle">中医方剂学 · 方歌记忆宝典</div>
+</div>
+
+<div class="top-bar">
+  <div class="breadcrumb-nav" id="breadcrumbNav">
+    <a onclick="App.go('home')">🏠 首页</a>
+  </div>
+  <div class="search-bar" id="searchBarContainer">
+    <input type="text" id="searchInput" placeholder="🔍 搜索方剂..." oninput="App.doSearch(this.value)" onfocus="this.value&&App.doSearch(this.value)" onblur="setTimeout(function(){App.hideSearch()},200)">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<div class="main" id="mainContent"></div>
+
+<div class="footer" id="footer"></div>
+
+<script>
+var DATA = [{"name": "一、解表剂", "formulas": [{"num": 1, "name": "麻黄汤", "song": "麻黄汤中臣桂枝，杏仁甘草四般施；发汗解表宣肺气，伤寒表实无汗宜。"}, {"num": 2, "name": "桂枝汤", "song": "桂枝芍药等量伍，姜枣甘草微火煮；解肌发表调营卫，伤风表虚自汗出。"}, {"num": 3, "name": "小青龙汤", "song": "解表蠲饮小青龙，麻桂姜辛夏草从；芍药五味敛气阴，外寒里饮最有功。"}, {"num": 4, "name": "九味羌活汤", "song": "九味羌活防风苍，辛芷芎草芩地黄；发汗祛湿兼清热，分经论治变通良。"}, {"num": 5, "name": "银翘散", "song": "银翘散主上焦疴，竹叶荆蒡豉薄荷；甘桔芦根凉解法，清疏风热煮无过。"}, {"num": 6, "name": "桑菊饮", "song": "桑菊饮中桔杏翘，芦根甘草薄荷饶；清疏肺卫轻宣剂，风温咳嗽服之消。"}, {"num": 7, "name": "麻黄杏仁甘草石膏汤", "song": "仲景麻杏甘石汤，辛凉清肺平喘良；邪热壅肺欬喘急，有汗无汗均可尝。"}, {"num": 8, "name": "柴葛解肌汤", "song": "陶氏柴葛解肌汤，邪在三阳热势张；芩芍桔草姜枣芷，羌膏解表清热良。"}, {"num": 9, "name": "香苏散", "song": "香苏散内草陈皮，疏散风寒又理气；外感风寒兼气滞，寒热无汗胸脘痞。"}, {"num": 10, "name": "败毒散", "song": "人参败毒草苓芎，羌独柴前枳桔共；薄荷少许姜三片，气虚寒湿最有功。"}, {"num": 11, "name": "再造散", "song": "再造散用参附芪，桂甘羌防芎芍齐；再加细辛姜枣煮，阳虚寒闭治相宜。"}, {"num": 12, "name": "加减葳蕤汤", "song": "加减葳蕤用白薇，豆豉生葱桔梗随；草枣薄荷八味共，滋阴发汗功可慰。"}, {"num": 13, "name": "正柴胡饮", "song": "正柴胡饮平散方，芍药防风陈草姜；轻疏风邪解热痛，表寒轻证服之康。"}, {"num": 14, "name": "升麻葛根汤", "song": "阎氏升麻葛根汤，芍药甘草合成方；麻疹初起出不透，解肌透疹此方良。"}, {"num": 15, "name": "麻黄细辛附子汤", "song": "麻黄细辛附子汤，温经解表此方良；少阴脉沉反发热，寒邪外解不伤阳。"}, {"num": 16, "name": "参苏饮", "song": "参苏饮内用陈皮，枳壳前胡半夏齐；葛根木香甘桔茯，气虚外感治相宜。"}, {"num": 17, "name": "葱白七味饮", "song": "葱白七味《外台》方，新豉葛根与生姜；麦冬生地千扬水，血虚外感最相当。"}, {"num": 18, "name": "大青龙汤", "song": "大青龙汤桂麻黄，姜枣石膏杏草藏。太阳无汗兼烦躁，解表清热此方良。"}, {"num": 19, "name": "越婢汤", "song": "越婢汤用八两膏，六麻二甘生姜枣；恶风自汗又身肿，风水夹热服之消。"}, {"num": 20, "name": "射干麻黄汤", "song": "射干麻黄菀冬汤，五味夏辛枣生姜；宣肺降逆化痰饮，胸膈满闷痰喘康。"}, {"num": 21, "name": "荆防败毒散", "song": "荆防败毒草苓芎，羌独柴前枳桔共；发汗解表消疮肿，散风寒湿有奇功。"}, {"num": 22, "name": "葱豉桔梗汤", "song": "葱豉桔梗薄荷翘，山栀竹叶加甘草；热邪束肺嗽咽痛，风温初起此方疗。"}]}, {"name": "二、泻下剂", "formulas": [{"num": 23, "name": "大承气汤", "song": "大承气汤大黄硝，枳实厚朴先煮好；峻下热结急存阴，阳明腑实重证疗。"}, {"num": 24, "name": "大陷胸汤", "song": "大陷胸汤用硝黄，甘遂为末共成方；专治水热结胸证，泻热逐水效非常。"}, {"num": 25, "name": "大黄牡丹汤", "song": "金匮大黄牡丹汤，桃仁芒硝瓜子襄；泻热破瘀散结肿，肠痛初起腹痛康。"}, {"num": 26, "name": "温脾汤", "song": "温脾附子大黄硝，当归干姜人参草；攻下寒积温脾阳，阳虚寒积腹痛疗。"}, {"num": 27, "name": "十枣汤", "song": "十枣非君非汤剂，甘遂芫花和大戟；攻逐水饮力峻猛，悬饮水肿实证宜。"}, {"num": 28, "name": "济川煎", "song": "济川苁蓉归牛膝，枳壳升麻泽泻齐；温肾益精润通便，肾虚精亏便秘宜。"}, {"num": 29, "name": "黄龙汤", "song": "黄龙汤中枳朴黄，参归甘桔枣硝姜；攻下热结养气血，阳明腑实气血伤。"}, {"num": 30, "name": "新加黄龙汤", "song": "新加黄龙草硝黄，参归麦地玄海姜；滋阴养液补气血，正虚便秘此方良。"}, {"num": 31, "name": "大黄附子汤", "song": "金匮大黄附子汤，温下治法代表方；细辛散寒又止痛，寒积里实腹痛康。"}, {"num": 32, "name": "麻子仁丸", "song": "麻子仁丸脾约剂，杏芍大黄枳朴蜜；润肠泻热又行气，胃热肠燥便秘宜。"}, {"num": 33, "name": "舟车丸", "song": "舟车牵牛及大黄，遂戟芫花槟木香；橘皮青皮轻粉入，泻水消胀力量强。"}, {"num": 34, "name": "增液承气汤", "song": "增液承气玄地冬，更加硝黄加量雄；温病阴亏实热结，养阴泻热肠道通。"}]}, {"name": "三、和解剂", "formulas": [{"num": 35, "name": "小柴胡汤", "song": "小柴胡汤和解功，半夏人参甘草从；更加黄芩生姜枣，少阳为病此方宗。"}, {"num": 36, "name": "蒿芩清胆汤", "song": "蒿芩清胆夏竹茹，碧玉赤苓枳陈辅；清胆利湿又和胃，少阳湿热痰浊阻。"}, {"num": 37, "name": "达原饮", "song": "达原厚朴槟草果，知母黄芩芍甘佐；辟秽化浊达膜原，邪伏膜原寒热作。"}, {"num": 38, "name": "四逆散", "song": "阳郁厥逆四逆散，等分柴芍枳实甘；透邪解郁理肝脾，肝郁脾滞力能堪。"}, {"num": 39, "name": "逍遥散", "song": "逍遥散用当归芍，柴苓术草加姜薄；疏肝养血又健脾，肝郁血虚脾弱疗。"}, {"num": 40, "name": "痛泻要方", "song": "痛泻要方用陈皮，术芍防风共成剂；肠鸣泄泻腹又痛，治在泻肝与实脾。"}, {"num": 41, "name": "半夏泻心汤", "song": "半夏泻心配芩连，干姜人参草枣全；辛开苦降除痞满，寒热错杂痞证蠲。"}, {"num": 42, "name": "当归芍药散", "song": "妊娠㽲痛势绵绵，三两归芎润且宣；芍药一斤泽泻半，术苓四两妙盘旋。"}, {"num": 43, "name": "柴胡桂枝干姜汤", "song": "柴胡桂枝干姜汤，花粉芩甘牡蛎襄；和解少阳温水饮，寒多热少胁满康。"}, {"num": 44, "name": "柴胡加龙骨牡蛎汤", "song": "参苓龙牡桂铅丹，柴芩黄夏姜枣全；清胆镇惊三焦利，胸满烦惊小便难。"}, {"num": 45, "name": "生姜泻心汤", "song": "半夏泻心汤干姜三两减至一两，加生姜四两。"}, {"num": 46, "name": "甘草泻心汤", "song": "半夏泻心汤加甘草一两。"}]}, {"name": "四、清热剂", "formulas": [{"num": 47, "name": "白虎汤", "song": "白虎膏知粳米甘，清热生津止渴烦；气分热盛四大证，益气生津人参添。"}, {"num": 48, "name": "竹叶石膏汤", "song": "竹叶石膏参麦冬，半夏粳米甘草从；清补气津又和胃，余热耗伤气津用。"}, {"num": 49, "name": "清营汤", "song": "清营汤治热传营，身热燥渴眠不宁；犀地银翘玄连竹，丹麦清热更护阴。"}, {"num": 50, "name": "犀角地黄汤", "song": "犀角地黄芍药丹，清热凉血散瘀专；热入血分服之安，蓄血伤络吐衄斑。"}, {"num": 51, "name": "清瘟败毒饮", "song": "清瘟败毒地连芩，丹膏栀草竹叶存；犀角玄翘知芍桔，清热解毒又滋阴。"}, {"num": 52, "name": "凉膈散", "song": "凉膈硝黄栀子翘，黄芩甘草薄荷饶；再加竹叶调蜂蜜，上中郁热服之消。"}, {"num": 53, "name": "黄连解毒汤", "song": "黄连解毒柏栀芩，三焦火盛是主因；烦狂火热兼谵妄，吐衄发斑皆可平。"}, {"num": 54, "name": "普济消毒饮", "song": "普济消毒蒡芩连，甘桔蓝根勃翘玄；升柴陈薄僵蚕入，大头瘟毒服之痊。"}, {"num": 55, "name": "仙方活命饮", "song": "仙方活命君银花，归芍乳没陈皂甲；防芷贝粉甘酒煎，阳证痈疡内消法。"}, {"num": 56, "name": "四妙勇安汤", "song": "四妙勇安金银花，当归玄参甘草加；清热解毒兼活血，热毒脱疽效堪夸。"}, {"num": 57, "name": "导赤散", "song": "导赤木通生地黄，草梢煎加竹叶尝；清心利水又养阴，心经火热移小肠。"}, {"num": 58, "name": "龙胆泻肝汤", "song": "龙胆栀芩酒拌炒，木通泽泻车柴草；当归生地益阴血，肝胆实火湿热消。"}, {"num": 59, "name": "左金丸", "song": "左金连萸六比一，胁痛吞酸悉能医；再加白芍名戊己，专治泄痢痛在脐。"}, {"num": 60, "name": "泻白散", "song": "泻白桑白地骨皮，粳米甘草扶肺气；清泻肺热平和剂，热伏肺中咳能医。"}, {"num": 61, "name": "清胃散", "song": "清胃散中当归连，生地丹皮升麻全；或加石膏泻胃火，能消牙痛与牙宣。"}, {"num": 62, "name": "玉女煎", "song": "玉女石膏熟地黄，知母麦冬牛膝襄；肾虚胃火相为病，牙痛齿衄宜煎尝。"}, {"num": 63, "name": "芍药汤", "song": "芍药汤内用槟黄，芩连归桂草木香；重在调气兼行血，里急便脓自然康。"}, {"num": 64, "name": "白头翁汤", "song": "白头翁治热毒痢，黄连黄柏佐秦皮；清热解毒兼凉血，赤多白少脓血医。"}, {"num": 65, "name": "苇茎汤", "song": "苇茎瓜瓣桃苡仁，清肺化痰逐瘀脓；热毒痰瘀致肺痈，脓成未成均可用。"}, {"num": 66, "name": "青蒿鳖甲汤", "song": "青蒿鳖甲知地丹，热自阴来仔细看；夜热早凉无汗出，养阴透热服之安。"}, {"num": 67, "name": "栀子豉汤", "song": "栀子豉汤治虚烦，胸中懊恼不得眠；十四枚栀四合豉，先栀后豉如法煎。"}, {"num": 68, "name": "五味消毒饮", "song": "五味消毒疗诸疔，银花野菊蒲公英；紫花地丁天葵子，煎加酒服效非轻。"}, {"num": 69, "name": "牛蒡解肌汤", "song": "牛蒡解肌丹栀翘，荆薄玄斛夏枯草；疏风清热又消肿，牙痛颈毒俱可消。"}, {"num": 70, "name": "泻黄散", "song": "泻黄散用草防风，石膏栀子藿香充。炒香蜜酒调和服，胃热口疮并见功。"}, {"num": 71, "name": "清骨散", "song": "清骨散君银柴胡，胡连秦艽鳖甲辅；地骨青蒿知母甘，骨蒸劳热一并除。"}, {"num": 72, "name": "秦艽鳖甲汤", "song": "秦艽鳖甲治风劳，地骨柴胡及青蒿；当归知母乌梅合，止嗽除蒸敛汗超。"}, {"num": 73, "name": "当归六黄汤", "song": "火炎汗出六黄汤，芩连归柏二地黄；倍用黄芪为固表，滋阴清热敛汗强。"}, {"num": 74, "name": "清心莲子饮", "song": "清心莲子石莲参，地骨车前茯苓芩，黄芪甘草麦门冬，躁烦消渴及崩淋。"}, {"num": 75, "name": "泻心汤", "song": "大黄黄连泻心汤，黄芩黄连和大黄；泻热消痞沸汤渍，胸痞吐衄烦热康。"}]}, {"name": "五、祛暑剂", "formulas": [{"num": 76, "name": "新加香薷饮", "song": "新加香薷朴银翘，扁豆鲜花一起熬；暑温口渴汗不出，清热化湿又解表。"}, {"num": 77, "name": "清暑益气汤（王氏）", "song": "王氏清暑益气汤，暑热气津已两伤；洋参麦斛粳米草，翠衣荷连知竹尝。"}, {"num": 78, "name": "香薷散", "song": "香薷散中扁豆朴，祛暑解表化湿阻；易豆为花加银翘，新加香薷治阴暑。"}, {"num": 79, "name": "清络饮", "song": "清络饮内六药鲜，银扁翠衣瓜络添；佐以竹叶荷叶边，暑热伤肺轻证安。"}, {"num": 80, "name": "六一散", "song": "六一散用滑石甘，清暑利湿把蜜添；辰砂黛薄依次加，益元碧玉鸡苏三。"}, {"num": 81, "name": "桂苓甘露饮", "song": "桂苓甘露滑石膏，寒水猪苓泽术草；清暑化气利水湿，暑湿俱盛重证疗。"}]}, {"name": "六、温里剂", "formulas": [{"num": 82, "name": "理中丸", "song": "理中干姜参术甘，温中健脾治虚寒；中阳不足痛呕利，丸汤两用腹中暖。"}, {"num": 83, "name": "吴茱萸汤", "song": "吴茱萸汤六生姜，人参大枣共煎尝；厥阴头痛胃寒呕，温中补虚降逆良。"}, {"num": 84, "name": "小建中汤", "song": "小建中汤君饴糖，桂枝汤方倍芍尝；温中补虚和缓急，虚劳里急腹痛康。"}, {"num": 85, "name": "四逆汤", "song": "四逆汤中附草姜，阳衰寒厥急煎尝；腹痛吐泻脉沉细，急投此方可回阳。"}, {"num": 86, "name": "回阳救急汤", "song": "回阳救急用六君，桂附干姜五味群；加麝三厘或胆汗，三阴寒厥建奇勋。"}, {"num": 87, "name": "当归四逆汤", "song": "当归四逆用桂芍，细辛木通甘大枣；温经养血通脉剂，血虚寒厥服之效。"}, {"num": 88, "name": "阳和汤", "song": "阳和熟地鹿角胶，姜炭肉桂麻芥草；温阳补血散寒滞，阳虚寒凝阴疽疗。"}, {"num": 89, "name": "大建中汤", "song": "大建中汤建中阳，蜀椒干姜参饴糖；阴盛阳虚腹冷痛，温补中焦止痛强。"}, {"num": 90, "name": "黄芪桂枝五物汤", "song": "黄芪桂枝五物汤，芍药大枣与生姜；益气温经和营卫，血痹风痹服之康。"}]}, {"name": "七、表里双解剂", "formulas": [{"num": 91, "name": "大柴胡汤", "song": "大柴胡汤用大黄，枳芩夏芍枣生姜；少阳阳明同为病，和解攻里效无双。"}, {"num": 92, "name": "防风通圣散", "song": "防风通圣大黄硝，荆芥麻黄栀芍翘；甘桔芎归膏滑石，薄荷芩术力偏饶。表里交攻阳热盛，外疡疮毒总能消。"}, {"num": 93, "name": "葛根芩连汤", "song": "葛根芩连甘草伍，用时先将葛根煮；内清肠胃外解表，协热下利喘汗除。"}, {"num": 94, "name": "石膏汤", "song": "石膏汤用柏芩连，麻黄豆豉山栀全；清热发汗兼解毒，姜枣细茶一同煎。"}, {"num": 95, "name": "五积散", "song": "五积消滞又温中，麻黄苍芷归芍芎；枳桔桂苓甘草朴，两姜陈皮半夏葱。除桂枳陈余略炒，熟料尤增温散功，理气解表祛寒湿，散痞调经辨证从。"}, {"num": 96, "name": "疏凿饮子", "song": "疏凿槟榔及商陆，苓皮大腹同椒目；赤豆艽羌泽木通，煎加姜皮阳水服。"}]}, {"name": "八、补益剂", "formulas": [{"num": 97, "name": "四君子汤", "song": "四君子汤中和义，参术茯苓甘草比；益气健脾基础剂，脾胃气虚治相宜。"}, {"num": 98, "name": "参苓白术散", "song": "参苓白术扁豆陈，莲草山药砂苡仁；桔梗上浮兼保肺，枣汤调服益脾神。"}, {"num": 99, "name": "完带汤", "song": "完带汤中二术陈，人参甘草车前仁；柴芍淮山黑芥穗，化湿止带此方神。"}, {"num": 100, "name": "补中益气汤", "song": "补中益气芪参术，炙草升柴归陈助；升阳举陷补中气，气虚发热甘温除。"}, {"num": 101, "name": "玉屏风散", "song": "玉屏组合少而精，黄芪白术加防风；表虚汗多易感冒，益气固表止汗灵。"}, {"num": 102, "name": "生脉散", "song": "生脉麦味与人参，保肺清心治暑淫；气少汗多兼口渴，益气生津又敛阴。"}, {"num": 103, "name": "四物汤", "song": "四物熟地归芍芎，补血调血此方宗；营血虚滞诸多症，面唇舌淡脉细征。"}, {"num": 104, "name": "归脾汤", "song": "归脾汤用参术芪，归草茯神远志齐；酸枣木香龙眼肉，煎加姜枣益心脾。"}, {"num": 105, "name": "当归补血汤", "song": "当归补血君黄芪，芪归用量五比一；补气生血代表剂，血虚发热此方宜。"}, {"num": 106, "name": "内补黄芪汤", "song": "内补黄芪芍地冬，参苓远志加川芎；当归甘草官桂并，力补痈疽善后功。"}, {"num": 107, "name": "炙甘草汤", "song": "炙甘草枣参地胶，麻仁麦桂姜酒熬；益气养血温通脉，结代心悸肺痿疗。"}, {"num": 108, "name": "六味地黄丸", "song": "六味地黄山药萸，泽泻苓丹三泻侣；三阴并补重滋肾，肾阴不足效可居。滋阴降火知柏需，养肝明目加杞菊，都气五味纳肾气，滋补肺肾麦味续。"}, {"num": 109, "name": "大补阴丸", "song": "大补阴丸知柏黄，龟板脊髓蜜丸方；咳嗽咯血骨蒸热，阴虚火旺制亢阳。"}, {"num": 110, "name": "一贯煎", "song": "一贯煎中生地黄，沙参归杞麦冬藏；少佐川楝泻肝气，阴虚胁痛此方良。"}, {"num": 111, "name": "肾气丸", "song": "肾气丸主肾气虚，生地山药及山萸；少量桂附泽苓丹，水中生火在温煦。《济生》加入车牛膝，温肾利水消肿需，十补丸有鹿茸味，主治肾阳精血虚。"}, {"num": 112, "name": "地黄饮子", "song": "地黄饮萸麦味斛，苁戟附桂阴阳补；化痰开窍菖远茯，加薄姜枣喑痱服。"}, {"num": 113, "name": "人参蛤蚧散", "song": "人参蛤蚧甘草茯，杏仁桑皮知贝母；肺肾气虚兼痰热，补肺益肾痰热除。"}, {"num": 114, "name": "八珍汤", "song": "四君四物加枣姜，八珍双补气血方；再加黄芪与肉桂，十全大补效增强。更加橘味志去芎，养荣补心安神良。"}, {"num": 115, "name": "人参养荣汤", "song": "人参养荣即十全，减去川芎五味联。陈皮远志加姜枣，脾肺气血温补安。"}, {"num": 116, "name": "泰山磐石散", "song": "泰山磐石八珍全，芪芩砂糯续断联；益气养血减茯苓；堕胎滑胎服之安。"}, {"num": 117, "name": "补肺阿胶汤", "song": "补肺阿胶马兜铃，牛蒡甘草糯米杏；肺虚火盛最宜服，降气生津咳嗽宁。"}, {"num": 118, "name": "石斛夜光丸", "song": "石斛夜光菊连芎，二冬二地参草风；苓斛药味杏枳壳，蒺藜枸牛菟苁蓉；草决青葙犀羚角；养肝滋阴降火功。"}, {"num": 119, "name": "虎潜丸", "song": "虎潜足痿是妙方，虎骨陈皮并锁阳；龟板干姜知母芍，再加柏地作丸尝。"}, {"num": 120, "name": "七宝美髯丹", "song": "七宝美髯归杞乌，茯苓牛膝故纸菟；须发早白齿动摇，肝肾精血亏虚服。"}, {"num": 121, "name": "左归丸", "song": "左归丸内山药地，萸肉枸杞与牛膝；菟丝龟鹿二胶合，壮水之主方第一。"}, {"num": 122, "name": "左归饮", "song": "左归熟地山萸药，枸杞茯苓炙甘草；滋阴益肾补精血，阴衰阳盛宜煎熬。"}, {"num": 123, "name": "右归丸", "song": "右归丸中地附桂，山药茱萸菟丝归；鹿角杜仲枸杞子，益火之源此方魁。"}, {"num": 124, "name": "右归饮", "song": "右归饮中用桂附，熟地药萸杞草杜；温补肾阳填精血，阳衰阴盛命门护。"}, {"num": 125, "name": "龟鹿二仙胶", "song": "《医便》龟鹿二仙胶，人参枸杞熬成膏；滋阴益肾填精髓，\"精极\"用此疗效高。"}, {"num": 126, "name": "保元汤", "song": "补养诸汤首保元。参芪桂草存四般。大人虚损儿科痘，二气持纲语不烦。"}, {"num": 127, "name": "举元煎", "song": "景岳全书举元煎，芪草参术升麻添；升阳举陷摄气血，血崩血脱服之安。"}, {"num": 128, "name": "升陷汤", "song": "升陷汤出参西录，柴胡升麻与知母；生黄芪与桔梗配，大气下陷脉叁伍。"}, {"num": 129, "name": "升阳益胃汤", "song": "升阳益胃参术芪，黄连半夏草陈皮；柴芍防风羌独活，茯苓泽泻姜枣宜。"}, {"num": 130, "name": "补天大造丸", "song": "补天大造治虚劳，芪归参术枣白芍，龟鹿二胶河车远，熟地枸杞苓山药。"}, {"num": 131, "name": "补肝汤", "song": "补肝生地归芍芎，枣仁木瓜甘草同；补养肝血兼明目，虚劳在肝能奏功。"}]}, {"name": "九、安神剂", "formulas": [{"num": 132, "name": "朱砂安神丸", "song": "朱砂安神东垣方，归连甘草合地黄；怔忡不寐心烦乱，镇心养血清热康。"}, {"num": 133, "name": "酸枣仁汤", "song": "酸枣仁汤治失眠，川芎茯苓知草煎；养血安神清虚热，肝血不足致虚烦。"}, {"num": 134, "name": "天王补心丹", "song": "补心地归二冬仁，远苓味砂桔三参；阴亏血少生内热，滋阴养血安心神。"}, {"num": 135, "name": "黄连阿胶汤", "song": "黄连阿胶鸡子黄，黄芩白芍共成方；水亏火炽烦难卧，滋阴降火可复康。"}, {"num": 136, "name": "珍珠母丸", "song": "珍珠母丸归地参，犀沉龙齿柏枣仁；朱砂为衣茯神入，镇心养血又安神。"}, {"num": 137, "name": "磁朱丸", "song": "磁朱丸中有神曲，摄纳浮阳又明目；心悸失眠皆可治，癫狂痫症亦可服。"}, {"num": 138, "name": "甘麦大枣汤", "song": "甘草小麦大枣汤，妇人脏躁性反常；精神恍惚悲欲哭，和中缓急自然康。"}, {"num": 139, "name": "交泰丸", "song": "心肾不交交泰丸，肉桂五分连五钱；怔忡不寐口舌疮，水不济火服之安。"}, {"num": 140, "name": "养心汤", "song": "养心汤用草芪参，二茯芎归柏子寻；半夏桂味兼远志，再加酸枣可宁心。"}]}, {"name": "十、固涩剂", "formulas": [{"num": 141, "name": "牡蛎散", "song": "牡蛎散内用黄芪，麻黄根与小麦齐；益气固表又敛阴，体虚自汗盗汗宜。"}, {"num": 142, "name": "九仙散", "song": "九仙罂粟乌梅味，参胶桑皮款桔贝；敛肺止咳益气阴，肺虚久咳效堪谓。"}, {"num": 143, "name": "真人养脏汤", "song": "真人养脏归粟壳，术芍参桂肉蔻诃；香草温补又固脱，脱肛久痢服之和。"}, {"num": 144, "name": "四神丸", "song": "二神肉蔻补骨脂，五味子散味吴萸；大枣生姜同煎合，五更肾泻治相宜。"}, {"num": 145, "name": "桑螵蛸散", "song": "桑螵蛸散龙龟甲，参归茯神菖远加；调补心肾又涩精，心肾两虚尿频佳。"}, {"num": 146, "name": "固冲汤", "song": "固冲芪术山萸芍，龙牡倍榈茜海蛸；益气健脾固摄血，脾肾亏虚崩漏疗。"}, {"num": 147, "name": "固经丸", "song": "固经龟板芍药芩，黄柏香附和椿根；阴虚血热经量多，滋阴清热能固经。"}]}, {"name": "十一、理气剂", "formulas": [{"num": 148, "name": "越鞠丸", "song": "行气解郁越鞠丸，香附芎苍栀曲研；气血痰火湿食郁，随证易君并加减。"}, {"num": 149, "name": "柴胡疏肝散", "song": "柴胡疏肝散郁方，行气止痛效果良；香附芎陈枳芍草，肝郁气滞诸证康。"}, {"num": 150, "name": "半夏厚朴汤", "song": "半夏厚朴与紫苏，茯苓生姜同煎服；痰凝气聚成梅核，化痰降逆气自舒。"}, {"num": 151, "name": "瓜蒌薤白白酒汤", "song": "瓜蒌薤白白酒汤，胸痹胸闷痛难当；通阳散结又行气，胸阳不振闷痛康。"}, {"num": 152, "name": "枳实薤白桂枝汤", "song": "枳实薤白桂枝汤，厚蒌合治胸痹方；胸阳不振痰气结，通阳散结下气强。"}, {"num": 153, "name": "天台乌药散", "song": "天台乌药木茴香，青姜巴豆制楝榔；行气疏肝散寒痛，寒滞疝痛酒调尝。"}, {"num": 154, "name": "暖肝煎", "song": "暖肝煎中桂茴香，归杞茯陈乌加姜；温补肝肾散寒气，肝肾虚寒疝痛康。"}, {"num": 155, "name": "枳实消痞丸", "song": "枳实消痞四君先，麦芽夏曲朴姜连；脾虚痞满结心下，痞消脾健乐天年。"}, {"num": 156, "name": "苏子降气汤", "song": "苏子降气祛痰方，夏朴前苏甘枣姜；肉桂纳气归调血，上实下虚痰喘康。"}, {"num": 157, "name": "定喘汤", "song": "定喘白果与麻黄，款冬半夏白皮桑；苏子黄芩甘草杏，宣肺清热化痰康。"}, {"num": 158, "name": "旋覆代赭汤", "song": "旋覆代赭五生姜，半夏人参甘枣尝；降逆化痰益胃气，胃虚痰阻痞嗳康。"}, {"num": 159, "name": "橘皮竹茹汤", "song": "橘皮竹茹重姜枣，参草益气共煎熬；降逆止呕又清热，胃虚有热呃逆疗。"}]}, {"name": "十二、理血剂", "formulas": [{"num": 160, "name": "桃核承气汤", "song": "桃核承气硝黄草，少佐桂枝温通妙；下焦蓄血小腹胀，泻热破瘀微利效。"}, {"num": 161, "name": "血府逐瘀汤", "song": "血府当归生地桃，红花枳壳草赤芍；柴胡芎桔牛膝等，血化气行不作劳。"}, {"num": 162, "name": "复元活血汤", "song": "复元活血柴酒军，桃红归甲甘蒌根；疏肝祛瘀又通络，损伤瘀痛酒煎斟。"}, {"num": 163, "name": "温经汤", "song": "温经汤用萸归芎，桂芍丹皮姜夏冬；参草益脾胶养血，调经重在暖胞宫。"}, {"num": 164, "name": "桂枝茯苓丸", "song": "金匮桂枝茯苓丸，桃仁芍药与牡丹；等分为末蜜丸服，缓消癥块胎可安。"}, {"num": 165, "name": "生化汤", "song": "生化汤是产后方，归芎桃草酒炮姜；消瘀活血功偏擅，止痛温经效亦彰。"}, {"num": 166, "name": "补阳还五汤", "song": "补阳还五芪归芎，赤芍地龙加桃红；中风气虚血瘀证，补气活血把络通。"}, {"num": 167, "name": "小蓟饮子", "song": "小蓟生地藕蒲黄，滑栀通竹归草襄；凉血止血利通淋，下焦瘀热血淋康。"}, {"num": 168, "name": "槐花散", "song": "槐花侧柏荆枳壳，等分为末米饮调；清肠止血又疏风，血热肠风脏毒疗。"}, {"num": 169, "name": "咳血方", "song": "咳血方中诃子收，瓜蒌海粉山栀投；青黛蜜丸口噙化，肝火犯肺痰血瘳。"}, {"num": 170, "name": "黄土汤", "song": "黄土汤中芩地黄，术附阿胶甘草尝；温阳健脾能摄血，便血崩漏服之康。"}]}, {"name": "十三、治风剂", "formulas": [{"num": 171, "name": "消风散", "song": "消风散中有荆防，蝉蜕胡麻苦参苍；知膏蒡通归地草，风疹湿疹服之康。"}, {"num": 172, "name": "大秦艽汤", "song": "大秦艽汤羌独防，辛芷芎芍二地当；苓术石膏黄芩草，风邪初中经络康。"}, {"num": 173, "name": "川芎茶调散", "song": "川芎茶调用荆防，辛芷薄荷甘草羌；目昏鼻塞风攻上，偏正头痛悉能康。"}, {"num": 174, "name": "羚角钩藤汤", "song": "羚角钩藤菊花桑，地芍贝茹茯草襄；凉肝息风又养阴，肝热生风急煎尝。"}, {"num": 175, "name": "镇肝熄风汤", "song": "镇肝息风芍天冬，玄参龟板赭茵从；龙牡麦芽膝草楝，肝阳上亢类中风。"}, {"num": 176, "name": "天麻钩藤饮", "song": "天麻钩藤膝决明，杜仲寄生栀子芩；夜藤茯神益母草，肾虚阳亢眩晕宁。"}, {"num": 177, "name": "大定风珠", "song": "大定风珠鸡子黄，麦地胶芍草麻襄；三甲并同五味子，滋阴息风是妙方。"}]}, {"name": "十四、治燥剂", "formulas": [{"num": 178, "name": "杏苏散", "song": "杏苏散内夏陈前，枳桔苓草姜枣研；轻宣微温治凉燥，理肺化痰病自痊。"}, {"num": 179, "name": "桑杏汤", "song": "桑杏汤中浙贝宜，沙参栀豉与梨皮；干渴鼻涸又身热，清宣凉润温燥医。"}, {"num": 180, "name": "清燥救肺汤", "song": "清燥救肺桑麦膏，参胶胡麻杏杷草；清燥润肺养气阴，温燥伤肺气阴耗。"}, {"num": 181, "name": "养阴清肺汤", "song": "养阴清肺是妙方，玄参草芍麦地黄；薄荷丹皮贝母入，时疫白喉急煎尝。"}, {"num": 182, "name": "麦门冬汤", "song": "麦门冬汤用人参，枣草粳米半夏存；肺痿咳逆因虚火，清养肺胃此方珍。"}, {"num": 183, "name": "百合固金汤", "song": "百合固金二地黄，玄参贝母桔草藏；麦冬芍药当归配，喘咳痰血肺家伤。"}]}, {"name": "十五、祛湿剂", "formulas": [{"num": 184, "name": "平胃散", "song": "平胃散内君苍术，厚朴陈草姜枣煮；燥湿运脾又和胃，湿滞脾胃胀满除。"}, {"num": 185, "name": "藿香正气散", "song": "藿香正气腹皮苏，甘桔陈苓朴白术；半夏白芷加姜枣，风寒暑湿并能除。"}, {"num": 186, "name": "三仁汤", "song": "三仁杏蔻薏苡仁，朴夏通草滑竹存；宣畅气机清湿热，湿重热轻在气分。"}, {"num": 187, "name": "甘露消毒丹", "song": "甘露消毒蔻藿香，茵陈滑石木通菖；芩翘贝母射干薄，湿热时疫是主方。"}, {"num": 188, "name": "茵陈蒿汤", "song": "茵陈蒿汤大黄栀，瘀热阳黄此方施；湿热并重之黄疸，清热退黄又利湿。"}, {"num": 189, "name": "二妙散", "song": "二妙散中苍柏煎，若云三妙牛膝添；四妙再加薏苡仁，湿热下注痿痹痊。"}, {"num": 190, "name": "连朴饮", "song": "连朴饮内用豆豉，菖蒲半夏焦山栀；芦根厚朴黄连入，湿热霍乱此方施。"}, {"num": 191, "name": "八正散", "song": "八正木通与车前，萹蓄大黄栀滑研；草梢瞿麦灯心草，湿热诸淋宜服煎。"}, {"num": 192, "name": "五苓散", "song": "五苓散治太阳腑，白术泽泻猪苓茯；桂枝化气兼解表，小便通利水饮逐。"}, {"num": 193, "name": "猪苓汤", "song": "猪苓汤内用茯苓，泽泻阿胶滑石停；水热互结伤阴证，滋阴利水症自平。"}, {"num": 194, "name": "防己黄芪汤", "song": "金匮防己黄芪汤，白术甘草加枣姜；益气祛风行水良，表虚风水风湿康。"}, {"num": 195, "name": "真武汤", "song": "真武附苓术芍姜，温阳利水壮肾阳；脾肾阳虚水气停，腹痛悸眩瞤惕恙。"}, {"num": 196, "name": "苓桂术甘汤", "song": "苓桂术甘仲景剂，温阳化饮又健脾；中阳不足饮停胃，胸胁支满悸眩宜。"}, {"num": 197, "name": "实脾散", "song": "实脾温阳行利水，附苓二姜术草随；瓜术香槟朴草果，阳虚水肿腹胀祟。"}, {"num": 198, "name": "独活寄生汤", "song": "独活寄生艽防辛，归芎地芍桂苓均；杜仲牛膝人参草，顽痹风寒湿是因。"}]}, {"name": "十六、祛痰剂", "formulas": [{"num": 199, "name": "二陈汤", "song": "二陈汤用半夏陈，苓草梅姜一并存；燥湿化痰又理气，湿痰为患此方珍。导痰汤内加星枳，顽痰胶固力能驯。若加竹茹与枳实，汤名温胆可宁神。"}, {"num": 200, "name": "温胆汤", "song": "温胆枳实与竹茹，夏陈苓草姜枣煮；理气化痰清胆胃，胆郁痰扰诸症除。"}, {"num": 201, "name": "贝母瓜蒌散", "song": "贝母瓜蒌花粉研，橘红茯苓桔梗添；咽干咳嗽痰难咯，润肺清热又化痰。"}, {"num": 202, "name": "清气化痰丸", "song": "清气化痰胆星蒌，夏芩杏陈枳实投；茯苓姜汁糊丸服，气顺火清痰热瘳。"}, {"num": 203, "name": "小陷胸汤", "song": "小陷胸汤连半蒌，宽胸散结涤痰优；痰热互结结胸证，清热化痰服之休。"}, {"num": 204, "name": "滚痰丸", "song": "礞石硝煅滚痰丸，大黄黄芩沉香添；泻火逐痰临睡服，实火顽痰怪证蠲。"}, {"num": 205, "name": "半夏白术天麻汤", "song": "半夏白术天麻汤，苓草橘红枣生姜；眩晕头痛风痰盛，痰化风息复正常。"}, {"num": 206, "name": "止嗽散", "song": "止嗽散用百部菀，白前桔草荆陈研；宣肺疏风止咳痰，姜汤调服不必煎。"}]}, {"name": "十七、消导化积剂", "formulas": [{"num": 207, "name": "保和丸", "song": "保和神曲莱菔楂，夏陈茯苓连翘加；消食化积又和胃，炊饼为丸白汤下。"}, {"num": 208, "name": "枳术丸", "song": "枳术丸是消补方，荷叶烧饭作丸尝；脾虚气滞食积停，健脾消痞力量强。"}, {"num": 209, "name": "健脾丸", "song": "健脾参术苓草陈，肉蔻香连合砂仁；楂肉山药曲麦炒，消补兼施不伤正。"}]}, {"name": "十八、驱虫剂", "formulas": [{"num": 210, "name": "乌梅丸", "song": "乌梅丸用细辛桂，黄连黄柏及当归；人参椒姜加附子，温肠清热能安蛔。"}]}, {"name": "十、开窍剂", "formulas": [{"num": 211, "name": "安宫牛黄丸", "song": "安宫牛黄开窍方，芩连栀郁朱雄黄；犀角珍珠冰麝箔，清热解毒此方良。"}, {"num": 212, "name": "紫雪", "song": "紫雪犀羚朱朴硝，硝石金寒滑磁膏；木丁沉麝升玄草，热陷痉厥服之消。"}, {"num": 213, "name": "至宝丹", "song": "至宝犀珀麝息香，朱雄玳瑁与牛黄；金银两箔兼龙脑，化浊开窍解毒良。"}, {"num": 214, "name": "紫金锭", "song": "玉枢丹有麝朱雄，五倍千金同奏功；大戟慈菇共为末，霍乱痧胀米汤冲。"}, {"num": 215, "name": "苏合香丸", "song": "苏合香丸麝息香，木丁薰陆荜檀襄；犀冰沉术诃香附，再加朱砂温开方。"}]}, {"name": "十一、固涩剂", "formulas": [{"num": 216, "name": "金锁固精丸", "song": "金锁固精龙牡蛎，芡实莲须与蒺藜；莲粉糊丸盐汤下，补肾涩精止滑遗。"}, {"num": 217, "name": "缩泉丸", "song": "缩泉丸治儿尿频，山药台乌益智仁；膀胱虚寒失约束，糊丸多服效显明。"}, {"num": 218, "name": "易黄汤", "song": "易黄山药与芡实，白果黄柏车前子；固肾清热又祛湿，肾虚湿热带下医。"}, {"num": 219, "name": "清带汤", "song": "清带汤中用山药，龙骨牡蛎茜海蛸；带下清稀色赤白，益脾固肾好疗效。"}]}, {"name": "十二、理气剂", "formulas": [{"num": 220, "name": "金铃子散", "song": "金铃延胡等分研，黄酒调服或水煎；疏肝泻热行气血，肝郁化火诸痛蠲。"}, {"num": 221, "name": "厚朴温中汤", "song": "厚朴温中苓陈草，干姜生姜一齐熬；行气燥湿蔻木香，脘腹胀痛服之消。"}, {"num": 222, "name": "四磨汤", "song": "四磨汤治七情侵，人参乌药沉香槟。浓磨煎服调逆气，实者枳壳易人参。去参加入木香枳（实），五磨饮子白酒斟。"}, {"num": 223, "name": "加味乌药汤", "song": "加味乌药木香砂，香附延胡甘草加；肝郁气滞经不畅，疏肝行气效堪夸。"}, {"num": 224, "name": "橘核丸", "song": "橘核丸中楝桂存，枳朴延胡藻带昆；桃仁木通木香合，㿗疝顽痛盐酒吞。"}]}, {"name": "十三、理血剂", "formulas": [{"num": 225, "name": "七厘散", "song": "七厘散治跌打伤，血竭红花冰麝香；乳没儿茶朱共末，外敷内服均见长。"}, {"num": 226, "name": "失笑散", "song": "失笑灵脂蒲黄同，等量为散酽醋冲；瘀滞心腹时作痛，祛瘀止痛有奇功。"}, {"num": 227, "name": "活络效灵丹", "song": "活络效灵主丹参，当归乳香没药存；癥瘕积聚腹中痛，煎服此方可回春。"}, {"num": 228, "name": "丹参饮", "song": "丹参饮子是妙方，心腹诸痛效堪当；檀砂佐使皆遵法，瘀热气滞诸痛康。"}, {"num": 229, "name": "大黄䗪虫丸", "song": "大黄䗪虫芩芍桃，地黄杏草漆蛴螬；虻虫水蛭和丸服，祛瘀生新功独超。"}, {"num": 230, "name": "十灰散", "song": "十灰散用十般灰，柏茅茜荷丹榈煨；二蓟栀黄各炒黑，上部出血势能摧。"}, {"num": 231, "name": "胶艾汤", "song": "胶艾汤中四物先，更加炙草一同煎；养血暖宫血行缓，胎漏崩中自可痊。"}, {"num": 232, "name": "艾附暖宫丸", "song": "艾附暖宫芎芍配，吴萸地椒芪续桂；温经养血暖胞宫，止带调经腹痛退。"}, {"num": 233, "name": "通窍活血汤", "song": "通窍全凭好麝香，桃红大枣与葱姜；川芎黄酒赤芍药，表里通经第一方。"}, {"num": 234, "name": "膈下逐瘀汤", "song": "膈下逐瘀桃牡丹，赤芍乌药玄胡甘；芎归灵脂红花壳，香附开郁血亦安。"}, {"num": 235, "name": "少腹逐瘀汤", "song": "少腹逐瘀小茴香，玄胡没药芎归姜；官桂赤芍蒲黄脂，经黯腹痛急煎尝。"}, {"num": 236, "name": "身痛逐瘀汤", "song": "身痛逐瘀桃归芎，脂艽羌附与地龙；牛膝红花没药草，通络止痛力量雄。"}]}, {"name": "十四、治风剂", "formulas": [{"num": 237, "name": "牵正散", "song": "牵正散治口眼斜，白附僵蚕合全蝎；等分为末热酒下，祛风化痰痉能解。"}, {"num": 238, "name": "小活络丹", "song": "小活络祛风湿寒，化痰活血三者兼；二乌南星乳没龙，寒湿痰瘀痹痛蠲。"}, {"num": 239, "name": "阿胶鸡子黄汤", "song": "阿胶鸡子黄汤好，地芍钩藤牡蛎草；决明茯神络石藤，阴虚风动此方保。"}, {"num": 240, "name": "玉真散", "song": "玉真散治破伤风，牙关紧闭体张弓；星麻白附羌防芷，外敷内服一方通。"}]}, {"name": "十五、治燥剂", "formulas": [{"num": 241, "name": "增液汤", "song": "增液玄参与地冬，热病津枯便不通；补药之体作泻剂，若非重用不为功。"}, {"num": 242, "name": "益胃汤", "song": "《温病条辨》益胃汤，沙参麦地合成方；冰糖玉竹同煎服，温病须虑把津伤。"}, {"num": 243, "name": "玉液汤", "song": "玉液汤中芪葛根，鸡金知味药花粉；饮一溲一消渴证，补脾固肾益气阴。"}, {"num": 244, "name": "琼玉膏", "song": "琼玉膏用生地黄，人参茯苓白蜜糖；炼蜜成膏缓缓服，干咳咯血肺阴伤。"}, {"num": 245, "name": "沙参麦冬汤", "song": "沙参麦冬扁豆桑，玉竹花粉甘草襄；秋燥耗津伤肺胃，咽干口燥最堪尝。"}]}, {"name": "十六、祛湿剂", "formulas": [{"num": 246, "name": "当归拈痛汤", "song": "当归拈痛猪苓泽，二术茵芩苦羌葛；升麻防风知参草，湿重热轻兼风邪。"}, {"num": 247, "name": "五皮散", "song": "五皮散用五种皮，苓腹陈姜桑白齐；利水消肿理健脾，脾虚湿滞皮水医。"}, {"num": 248, "name": "萆薢分清饮", "song": "萆薢分清益智仁，菖蒲乌药盐煎斟；下焦虚寒得温利，分清化浊效如神。"}, {"num": 249, "name": "羌活胜湿汤", "song": "羌活胜湿独防风，蔓荆藁本草川芎；祛风胜湿又止痛，风湿痹证此方宗。"}, {"num": 250, "name": "防己茯苓汤", "song": "四肢聂聂动无休，皮水情形以此求；己桂芪三草二两，茯苓六两砥中流。"}, {"num": 251, "name": "附子汤", "song": "附子汤治阳虚寒，参术苓芍炮附全，寒湿内侵身体痛。温经助阳祛湿寒。"}, {"num": 252, "name": "藿朴夏苓汤", "song": "藿朴夏苓用三仁，豆豉通草泽猪苓；宣畅气机祛湿热，湿盛热微中焦证。"}, {"num": 253, "name": "一加减正气散", "song": "藿香、厚朴、陈皮、茯苓加杏仁、神曲、麦芽、茵陈、大腹皮。"}, {"num": 254, "name": "二加减正气散", "song": "藿香、厚朴、陈皮、茯苓加防己、通草、薏仁、大豆黄卷。"}, {"num": 255, "name": "三加减正气散", "song": "藿香、厚朴、陈皮、茯苓加杏仁、滑石。"}, {"num": 256, "name": "四加减正气散", "song": "藿香、厚朴、陈皮、茯苓加草果、楂肉、神曲。"}, {"num": 257, "name": "五加减正气散", "song": "藿香、厚朴、陈皮、茯苓加大腹皮、谷芽、苍术。"}]}, {"name": "十七、祛痰剂", "formulas": [{"num": 258, "name": "小半夏汤", "song": "小半夏汤有生姜，化痰降逆基础方；主治痰饮呕吐证，若加茯苓效力彰。"}, {"num": 259, "name": "三子养亲汤", "song": "三子养亲祛痰方，芥苏莱菔共煎汤；大便实硬加熟蜜，冬寒更可加生姜。"}, {"num": 260, "name": "苓甘五味姜辛汤", "song": "苓甘五味姜辛汤，温阳化饮常用方；半夏杏仁均可入，寒痰冷饮保安康。"}, {"num": 261, "name": "定痫丸", "song": "定痫二茯贝天麻，丹麦陈远蒲姜夏；胆星全蝎蚕琥珀，竹沥姜汁草朱砂。镇心祛痰又开窍，平肝息风制痫发。"}, {"num": 262, "name": "茯苓丸", "song": "指迷茯苓丸半夏，风硝枳壳姜汤下；中脘停痰肩臂痛，气行痰消痛自罢。"}, {"num": 263, "name": "涤痰汤", "song": "涤痰汤用夏胆星，甘草橘红参茯苓。枳实竹茹兼菖蒲，痰迷舌强服之醒。"}, {"num": 264, "name": "导痰汤", "song": "二陈汤用半夏陈，苓草梅姜一并存；燥湿化痰又理气，湿痰为患此方珍。导痰汤内加星枳，顽痰胶固力能驯。若加竹茹与枳实，汤名温胆可宁神。"}]}, {"name": "十八、消导化积剂", "formulas": [{"num": 265, "name": "木香槟榔丸", "song": "木香槟榔青陈皮，黄柏黄连莪术齐；大黄牵牛加香附，热滞泻痢治相宜。"}, {"num": 266, "name": "枳实导滞丸", "song": "枳实导滞曲芩连，大黄泽术茯苓煎；湿食两滞生郁热，祛湿消食清热痊。"}, {"num": 267, "name": "葛花解酲汤", "song": "葛花解酲泽二苓，砂蔻青陈木香并，姜曲参术温健脾，理气分消酒湿灵。"}, {"num": 268, "name": "鳖甲煎丸", "song": "鳖甲煎丸疟母方，䗪虫鼠妇及蜣螂；蜂窠石韦人参射，桂朴紫葳丹芍姜；瞿麦柴芩胶半夏，桃仁葶苈和硝黄；疟疾日久胁下硬，癥消积化保安康。"}, {"num": 269, "name": "海藻玉壶汤", "song": "海藻玉壶带昆布，青陈二皮翘贝母；甘草独活夏归芎，消瘿散结效可睹。"}, {"num": 270, "name": "消瘰丸", "song": "消瘰丸用牡贝玄，滋阴散结又消痰；肝肾素亏痰火结，临证斟酌须加减。"}, {"num": 271, "name": "枳术汤", "song": "枳术汤中不用荷，行气消痞功效卓；擅治气滞水停证，心下坚大如盘和。"}]}, {"name": "十九、驱虫剂", "formulas": [{"num": 272, "name": "肥儿丸", "song": "肥儿丸内有使君，肉蔻香连曲麦槟；猪胆为丸热汤下，疳虫食积一扫清。"}, {"num": 273, "name": "化虫丸", "song": "化虫槟榔及使君，芜荑鹤虱苦楝根，铅粉白矾糊丸服，肠胃诸虫永绝氛。"}, {"num": 274, "name": "布袋丸", "song": "布袋丸内有四君，芜荑芦荟共调匀；夜明砂与使君子，消疳去虫法可循。"}, {"num": 275, "name": "伐木丸", "song": "伐木丸中用绿矾，苍术酒曲醋糊丸；泻肝燥湿消黄肿，钩虫为患效可观。"}]}, {"name": "其他", "formulas": [{"num": 276, "name": "犀黄丸", "song": "犀黄丸内用麝香，乳香没药与牛黄；乳岩黄痃与瘰疬，正气未虚均可尝。"}, {"num": 277, "name": "透脓散", "song": "透脓散治毒成脓，芪归山甲皂刺芎；程氏又加银蒡芷，更能速奏溃破功。"}, {"num": 278, "name": "小金丹", "song": "小金丹内麝草乌，灵脂胶香与没乳；木鳖地龙归墨炭，寒湿痰瘀最宜服。"}, {"num": 279, "name": "薏苡附子败酱散", "song": "薏苡附子败酱散，消肿排脓力不缓；肠痈成脓宜急投，脓泻痈消腹自软。"}]}];
+var TF = DATA.reduce(function(s,sub){return s+sub.formulas.length},0);
+
+// ====== APP GLOBAL STATE ======
+var App = {
+  view: 'home',       // home|sub|formulas|recite|blank|test
+  subIdx: -1,
+  formulaIdx: -1,
+
+  go: function(view, subIdx, formulaIdx) {
+    this.view = view; this.subIdx = subIdx!==undefined ? subIdx : -1; this.formulaIdx = formulaIdx!==undefined ? formulaIdx : -1;
+    document.body.setAttribute('data-mode', (view==='recite'||view==='blank'||view==='test')?view:'');
+    this.render();
+    window.scrollTo(0,0);
+  },
+
+  render: function() {
+    this.updateBreadcrumb();
+    var m = document.getElementById('mainContent');
+    var searchBar = document.getElementById('searchBarContainer');
+    searchBar.style.display = (this.view==='home'||this.view==='sub'||this.view==='formulas') ? '' : 'none';
+    if (this.view==='home') this.renderHome(m);
+    else if (this.view==='sub') this.renderSub(m);
+    else if (this.view==='formulas') this.renderFormulas(m);
+    else if (this.view==='recite') Recite.render(m);
+    else if (this.view==='blank') Blank.render(m);
+    else if (this.view==='test') Test.render(m);
+  },
+
+  updateBreadcrumb: function() {
+    var navEl = document.getElementById('breadcrumbNav');
+    var h = '<a onclick="App.go(\'home\')">🏠 首页</a>';
+    var modeNames = {recite:'📖 背诵模式',blank:'✏️ 挖空挑战',test:'🎯 抽背模式'};
+    if (this.view==='home') h += ' <span class="sep">›</span> <span class="current">全部章节</span>';
+    else if (modeNames[this.view]) h += ' <span class="sep">›</span> <span class="current">'+modeNames[this.view]+'</span>';
+    else if (this.subIdx>=0 && DATA[this.subIdx]) {
+      h += ' <span class="sep">›</span> <a onclick="App.go(\'sub\','+this.subIdx+')">'+DATA[this.subIdx].name+'</a>';
+      if (this.view==='formulas') h += ' <span class="sep">›</span> <span class="current">方歌列表</span>';
+    }
+    navEl.innerHTML = h;
+  },
+
+  renderHome: function(m) {
+    var stored = Storage.load();
+    var statsHTML = this._buildStatsHTML(stored);
+    var modeHTML = this._buildModeEntriesHTML(stored);
+    var calHTML = this._buildCalendarHTML(stored);
+    m.innerHTML = modeHTML + statsHTML + calHTML +
+      '<div style="text-align:center;margin-bottom:20px"><p style="font-size:1.1em;color:var(--text)">共收录 <strong>'+DATA.length+'</strong> 个章节，<strong>'+TF+'</strong> 首方歌</p><p style="color:var(--text-light);margin-top:4px">点击章节浏览方歌</p></div>'+
+      '<div class="card-grid">'+DATA.map(function(sub,idx){
+        return '<div class="card" onclick="App.go(\'sub\','+idx+')"><h3>📖 '+sub.name+'</h3><div class="count">'+sub.formulas.length+' 首方歌</div></div>';
+      }).join('')+'</div>';
+  },
+
+  _buildModeEntriesHTML: function(stored) {
+    var recited = stored ? Object.values(stored.memRecords).filter(function(r){return r.status==='memorized'||r.status==='mastered'}).length : 0;
+    var recitedCount = recited || 0;
+    return '<div class="mode-entries">'+
+      '<div class="mode-card recite" onclick="App.go(\'recite\')"><div class="mode-icon">📖</div><h3>背诵模式</h3><div class="mode-desc">按艾宾浩斯曲线科学记忆</div><div class="mode-stat">每日~10首 · 按教材顺序</div></div>'+
+      '<div class="mode-card blank" onclick="App.go(\'blank\')"><div class="mode-icon">✏️</div><h3>挖空挑战</h3><div class="mode-desc">填空巩固已背方歌</div><div class="mode-stat">三档难度 · 已背'+recitedCount+'首</div></div>'+
+      '<div class="mode-card test" onclick="App.go(\'test\')"><div class="mode-icon">🎯</div><h3>抽背模式</h3><div class="mode-desc">随机抽测 · 双栏对比纠错</div><div class="mode-stat">加权随机 · 薄弱加强</div></div>'+
+    '</div>'+
+    '<div style="text-align:center;margin-bottom:16px">'+
+    (recitedCount>0?'<span style="color:var(--text-light);font-size:0.85em;">已背 '+recitedCount+' 首 · </span>':'')+
+    '<a style="color:var(--danger);font-size:0.85em;cursor:pointer" onclick="if(confirm(\'确定清除所有学习数据？背诵进度、打卡记录将全部删除。\')){Storage.reset()}">🗑️ 清除学习数据</a></div>';
+  },
+
+  _buildStatsHTML: function(stored) {
+    if (!stored) return '';
+    var recs = stored.memRecords || {};
+    var total = 0, memorized = 0, mastered = 0;
+    for (var k in recs) { total++; if (recs[k].status==='memorized') memorized++; if (recs[k].status==='mastered') mastered++; }
+    if (total===0) return '';
+    var learned = memorized + mastered;
+    var logs = stored.dailyLogs || {};
+    var today = new Date().toISOString().slice(0,10);
+    var todayDone = !!logs[today];
+    return '<div class="stats-bar">'+
+      '<div class="stat-item"><div class="stat-num">'+learned+'</div><div class="stat-label">已背诵</div></div>'+
+      '<div class="stat-item"><div class="stat-num">'+mastered+'</div><div class="stat-label">已掌握</div></div>'+
+      '<div class="stat-item"><div class="stat-num">'+(stored.plan?stored.plan.totalDays:'-')+'</div><div class="stat-label">总天数</div></div>'+
+      '<div class="stat-item"><div class="stat-num">'+(todayDone?'✅':'⏳')+'</div><div class="stat-label">今日</div></div>'+
+    '</div>';
+  },
+
+  _buildCalendarHTML: function(stored) {
+    if (!stored || !stored.plan) return '';
+    var today = new Date();
+    var todayStr = today.toISOString().slice(0,10);
+    var planDays = stored.plan.totalDays || 0;
+    var logs = stored.dailyLogs || {};
+    var recs = stored.memRecords || {};
+
+    // Count status breakdown (3 tiers)
+    var completedDays = 0;
+    var masteredCount = 0, studiedCount = 0, untouchedCount = 0;
+    for (var k in recs) {
+      if (recs[k].status==='mastered') masteredCount++;
+      else if (recs[k].status==='memorized'||recs[k].status==='learning') studiedCount++;
+    }
+    // Formulas never touched
+    var allFormulaCount = 0;
+    for (var ci = 0; ci < DATA.length; ci++) allFormulaCount += DATA[ci].formulas.length;
+    untouchedCount = allFormulaCount - masteredCount - studiedCount;
+    for (var d = 0; d < planDays; d++) {
+      var dp = new Date(stored.plan.startDate); dp.setDate(dp.getDate() + stored.plan.days[d].day - 1);
+      var ds = dp.toISOString().slice(0,10);
+      if (ds <= todayStr && logs[ds] && logs[ds].sessions && logs[ds].sessions.length > 0) completedDays++;
+    }
+
+    // Current day number based on plan
+    var currentDay = 1;
+    for (var d = 0; d < planDays; d++) {
+      var dp = new Date(stored.plan.startDate); dp.setDate(dp.getDate() + stored.plan.days[d].day - 1);
+      if (dp.toISOString().slice(0,10) <= todayStr) currentDay = stored.plan.days[d].day;
+    }
+    var todayDone = logs[todayStr] && logs[todayStr].sessions && logs[todayStr].sessions.length > 0;
+    var pct = planDays > 0 ? Math.round(completedDays / planDays * 100) : 0;
+    var formulaTotal = allFormulaCount || TF;
+    var masteredPct = formulaTotal>0 ? Math.round(masteredCount/formulaTotal*100) : 0;
+    var studiedPct = formulaTotal>0 ? Math.round(studiedCount/formulaTotal*100) : 0;
+    var untouchedPct = 100 - masteredPct - studiedPct;
+
+    var todayCards = 0;
+    if (logs[todayStr] && logs[todayStr].sessions) {
+      for (var s = 0; s < logs[todayStr].sessions.length; s++) {
+        todayCards += (logs[todayStr].sessions[s].cards || []).length;
+      }
+    }
+
+    var html = '<div class="calendar-section">'+
+      '<h3>📊 学习进度</h3>'+
+      '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px">'+
+      '<div class="stat-item" style="flex:1;min-width:80px"><div class="stat-num">'+planDays+'</div><div class="stat-label">计划总天数</div></div>'+
+      '<div class="stat-item" style="flex:1;min-width:80px"><div class="stat-num" style="color:#4caf50">'+completedDays+'</div><div class="stat-label">已完成天数</div></div>'+
+      '<div class="stat-item" style="flex:1;min-width:80px"><div class="stat-num">'+(masteredCount+studiedCount)+'</div><div class="stat-label">已背方歌</div></div>'+
+      '<div class="stat-item" style="flex:1;min-width:80px"><div class="stat-num" style="color:'+(todayDone?'#4caf50':'#ff9800')+'">'+(todayDone?'✅':'⏳')+'</div><div class="stat-label">今日'+(todayDone?'已完成':'未完成')+'</div></div>'+
+      '</div>'+
+      '<div style="margin-bottom:10px;font-size:0.9em;color:var(--text)">'+
+      '📅 当前：<strong>第 '+currentDay+' 天</strong> ｜ 总进度：<strong>'+pct+'%</strong>'+
+      (todayCards > 0 ? ' ｜ 今日已背：<strong>'+todayCards+' 首</strong>' : '')+
+      '</div>'+
+      '<div class="progress-bar-container" style="height:14px"><div class="progress-bar-fill" style="width:'+pct+'%;background:linear-gradient(90deg,#4caf50,#8bc34a)"></div></div>'+
+      '<div style="display:flex;justify-content:space-between;font-size:0.8em;color:var(--text-light);margin-top:4px">'+
+      '<span>第1天</span><span>'+pct+'%</span><span>第'+planDays+'天</span></div>'+
+      '<div style="margin-top:16px;font-size:0.9em;color:var(--text)"><strong>📋 方歌掌握情况</strong></div>'+
+      '<div class="progress-bar-container" style="height:18px;margin-top:8px;border-radius:9px;overflow:hidden;display:flex">'+
+      (masteredCount>0?'<div style="width:'+masteredPct+'%;height:100%;background:#4caf50" title="已掌握 '+masteredCount+' 首"></div>':'')+
+      (studiedCount>0?'<div style="width:'+studiedPct+'%;height:100%;background:#2196f3" title="已背过 '+studiedCount+' 首"></div>':'')+
+      (untouchedPct>0?'<div style="width:'+untouchedPct+'%;height:100%;background:#e0e0e0" title="未背诵 '+untouchedCount+' 首"></div>':'')+
+      '</div>'+
+      '<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:0.85em">'+
+      '<span>🟢 已掌握 <strong>'+masteredCount+'</strong></span>'+
+      '<span>🔵 已背过 <strong>'+studiedCount+'</strong></span>'+
+      '<span>⬜ 未背诵 <strong>'+untouchedCount+'</strong></span>'+
+      '</div></div>';
+    return html;
+  },
+
+  renderSub: function(m) {
+    var sub = DATA[this.subIdx];
+    var stored = Storage.load();
+    var memRecords = stored ? stored.memRecords : {};
+    var memorizedInChapter = 0;
+    sub.formulas.forEach(function(f,fIdx){
+      var key = App.subIdx+'_'+fIdx;
+      if (memRecords[key] && (memRecords[key].status==='memorized'||memRecords[key].status==='mastered')) memorizedInChapter++;
+    });
+    m.innerHTML = '<button class="btn-back" onclick="App.go(\'home\')">← 返回首页</button>'+
+      '<div class="section-title"><span>📖</span> '+sub.name+'</div>'+
+      '<div class="stats">共 '+sub.formulas.length+' 首方歌 · 已背 '+memorizedInChapter+' 首</div>'+
+      '<div class="card-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">'+
+      sub.formulas.map(function(f,fIdx){
+        var key = App.subIdx+'_'+fIdx;
+        var isMem = memRecords[key] && (memRecords[key].status==='memorized'||memRecords[key].status==='mastered');
+        return '<div class="card" onclick="App.go(\'formulas\','+App.subIdx+','+fIdx+')" style="border-left-color:'+(isMem?'#4caf50':'var(--accent)')+'"><h3 style="font-size:1em">'+f.num+'. '+f.name+' '+(isMem?'✅':'')+'</h3></div>';
+      }).join('')+'</div>'+
+      '<div style="margin-top:24px"><button class="btn-back" onclick="App.go(\'formulas\','+App.subIdx+')" style="background:var(--secondary)">查看本类全部方歌 →</button></div>';
+  },
+
+  renderFormulas: function(m) {
+    var sub = DATA[this.subIdx];
+    m.innerHTML = '<button class="btn-back" onclick="App.go(\'sub\','+this.subIdx+')">← 返回 '+sub.name+'</button>'+
+      '<div class="section-title"><span>📝</span> '+sub.name+'</div>'+
+      '<p style="color:var(--text-light);margin-bottom:8px">共 '+sub.formulas.length+' 首方歌</p>'+
+      '<div class="formula-list">'+sub.formulas.map(function(f,fIdx){
+        var hi = App.formulaIdx===fIdx ? 'border:2px solid var(--primary)' : '';
+        return '<div class="formula-card" id="f'+fIdx+'" style="'+hi+'"><div class="fh"><div class="fnum">'+f.num+'</div><div class="fn">'+f.name+'</div></div><div class="fsong">'+f.song+'</div></div>';
+      }).join('')+'</div>';
+    if (this.formulaIdx!==undefined) {
+      var self = this;
+      setTimeout(function(){var el=document.getElementById('f'+self.formulaIdx);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},100);
+    }
+  },
+
+  doSearch: function(q) {
+    var rd = document.getElementById('searchResults');
+    if (!q||q.trim().length<1){rd.classList.remove('active');return}
+    var qt = q.trim().toLowerCase();
+    var results = [];
+    DATA.forEach(function(sub,si){sub.formulas.forEach(function(f,fi){
+      if (f.name.toLowerCase().indexOf(qt)>=0||f.song.indexOf(qt)>=0) results.push({si:si,fi:fi,subName:sub.name,formula:f});
+    })});
+    if (results.length===0) rd.innerHTML='<div style="padding:16px;color:var(--text-light);text-align:center">未找到匹配的方剂</div>';
+    else {
+      rd.innerHTML=results.slice(0,20).map(function(r){
+        return '<div class="result-item" onclick="App.go(\'formulas\','+r.si+','+r.fi+');App.hideSearch()"><div class="fname">'+r.formula.num+'. '+r.formula.name+'</div><div class="fpath">'+r.subName+'</div></div>';
+      }).join('');
+      if (results.length>20) rd.innerHTML+='<div style="padding:10px;color:var(--text-light);text-align:center;font-size:0.85em">... 还有 '+(results.length-20)+' 条结果</div>';
+    }
+    rd.classList.add('active');
+  },
+
+  hideSearch: function() { document.getElementById('searchResults').classList.remove('active'); },
+
+  showToast: function(msg) {
+    var t = document.createElement('div'); t.className='toast'; t.textContent=msg;
+    document.body.appendChild(t);
+    setTimeout(function(){t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(function(){t.remove()},300)},2000);
+  }
+};
+
+// ====== STORAGE MODULE ======
+var Storage = {
+  KEY: 'fg_study_data_v1',
+  _cache: null,
+
+  load: function() {
+    if (this._cache) return this._cache;
+    try {
+      var raw = localStorage.getItem(this.KEY);
+      if (raw) { this._cache = JSON.parse(raw); return this._cache; }
+    } catch(e) {}
+    this._cache = this._init();
+    return this._cache;
+  },
+
+  _init: function() {
+    return { version:1, memRecords:{}, dailyLogs:{}, errorWeights:{}, plan:null, settings:{recite:{dailyGoal:10},blank:{defaultDifficulty:'medium'},test:{questionCount:10}} };
+  },
+
+  save: function() {
+    try { localStorage.setItem(this.KEY, JSON.stringify(this._cache)); } catch(e) { App.showToast('存储空间不足，请清理旧数据'); }
+  },
+
+  reset: function() {
+    if (confirm('确定要清除所有学习数据吗？此操作不可恢复！')) {
+      localStorage.removeItem(this.KEY);
+      this._cache = this._init();
+      App.showToast('数据已清除');
+      App.render();
+    }
+  },
+
+  exportData: function() {
+    var data = JSON.stringify(this.load(), null, 2);
+    var blob = new Blob([data], {type:'application/json'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='fangge_backup_'+new Date().toISOString().slice(0,10)+'.json';
+    a.click(); App.showToast('数据已导出');
+  },
+
+  importData: function(file) {
+    var self = this;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        var data = JSON.parse(e.target.result);
+        if (data.version && data.memRecords) { self._cache = data; self.save(); App.showToast('数据已导入！'); App.render(); }
+        else App.showToast('无效的数据文件');
+      } catch(ex) { App.showToast('文件格式错误'); }
+    };
+    reader.readAsText(file);
+  },
+
+  getRecord: function(key) {
+    var stored = this.load();
+    if (!stored.memRecords[key]) stored.memRecords[key] = {status:'new',eFactor:2.5,interval:0,repetitions:0,nextReview:null,lastQuality:-1,history:[]};
+    return stored.memRecords[key];
+  },
+
+  updateRecord: function(key, quality) {
+    var rec = this.getRecord(key);
+    rec.history = rec.history || [];
+    rec.history.push({date:new Date().toISOString().slice(0,10),quality:quality});
+    if (rec.history.length > 20) rec.history = rec.history.slice(-20);
+    if (quality >= 2) { rec.status = rec.repetitions >= 3 ? 'mastered' : 'memorized'; }
+    else if (quality >= 1) { rec.status = 'learning'; }
+    else { rec.status = 'new'; rec.repetitions = 0; rec.interval = 0; }
+
+    if (quality >= 1) {
+      if (rec.repetitions === 0) rec.interval = 1;
+      else if (rec.repetitions === 1) rec.interval = 3;
+      else rec.interval = Math.round(rec.interval * rec.eFactor);
+      rec.repetitions++;
+    }
+    rec.eFactor = Math.max(1.3, rec.eFactor + (0.1 - (2-quality)*(0.08+(2-quality)*0.02)));
+    var next = new Date(); next.setDate(next.getDate() + Math.max(1, rec.interval));
+    rec.nextReview = next.toISOString().slice(0,10);
+    rec.lastQuality = quality;
+    this.save();
+  },
+
+  logSession: function(dateStr, sessionData) {
+    var stored = this.load();
+    if (!stored.dailyLogs[dateStr]) stored.dailyLogs[dateStr] = {sessions:[],taskDay:sessionData.taskDay||0};
+    var dayLog = stored.dailyLogs[dateStr];
+    dayLog.sessions.push({sessionNum:(dayLog.sessions.length+1),startTime:sessionData.startTime||'',endTime:new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}),mode:'recite',cards:sessionData.cards||[],score:sessionData.score||null});
+    dayLog.taskDay = sessionData.taskDay || dayLog.taskDay;
+    if (sessionData.newFormulas) dayLog.newFormulas = sessionData.newFormulas;
+    if (sessionData.reviewFormulas) dayLog.reviewFormulas = sessionData.reviewFormulas;
+    this.save();
+  },
+
+  getErrorWeight: function(key) {
+    var stored = this.load();
+    if (!stored.errorWeights[key]) stored.errorWeights[key] = {weight:1.0,totalAttempts:0,totalErrors:0};
+    return stored.errorWeights[key];
+  },
+
+  updateErrorWeight: function(key, isCorrect) {
+    var ew = this.getErrorWeight(key);
+    ew.totalAttempts++;
+    if (isCorrect) { ew.weight = Math.max(0.5, ew.weight - 1); }
+    else { ew.totalErrors++; ew.weight += 2; }
+    this.save();
+  },
+
+  getMemorizedKeys: function() {
+    var stored = this.load(), keys = [];
+    for (var k in stored.memRecords) {
+      var r = stored.memRecords[k];
+      if (r.status==='memorized'||r.status==='mastered') keys.push(k);
+    }
+    return keys;
+  }
+};
+
+// ====== PLANGEN MODULE ======
+var PlanGen = {
+  generate: function(startDate, dailyTarget) {
+    dailyTarget = dailyTarget || 10;
+    // Keep chapters in their original DATA order
+    var chapters = DATA.map(function(sub,idx){
+      return {idx:idx, name:sub.name, count:sub.formulas.length,
+        formulas: sub.formulas.map(function(f,fi){return {key:idx+'_'+fi, num:f.num, name:f.name};})};
+    });
+
+    // Greedy pack in original order: accumulate chapters until ~dailyTarget
+    var days = [], currentDay = {chapters:[], newFormulas:[], count:0};
+
+    for (var ci = 0; ci < chapters.length; ci++) {
+      var ch = chapters[ci];
+
+      // If this chapter alone exceeds ~13, split it
+      if (ch.count > dailyTarget + 3) {
+        // Flush current day if non-empty
+        if (currentDay.count > 0) { days.push(currentDay); currentDay = {chapters:[], newFormulas:[], count:0}; }
+        var chunks = this._splitChapter(ch, dailyTarget);
+        for (var si = 0; si < chunks.length; si++) {
+          days.push({chapters:[ch.idx], newFormulas:chunks[si].formulas.map(function(f){return f.key;}), count:chunks[si].formulas.length});
+        }
+      }
+      // If adding this chapter fits within target+3
+      else if (currentDay.count + ch.count <= dailyTarget + 3) {
+        currentDay.chapters.push(ch.idx);
+        currentDay.newFormulas = currentDay.newFormulas.concat(ch.formulas.map(function(f){return f.key;}));
+        currentDay.count += ch.count;
+      }
+      // Doesn't fit, start new day
+      else {
+        days.push(currentDay);
+        currentDay = {chapters:[ch.idx], newFormulas:ch.formulas.map(function(f){return f.key;}), count:ch.count};
+      }
+    }
+    // Flush remaining
+    if (currentDay.count > 0) days.push(currentDay);
+
+    // Number days and add Ebbinghaus reviews
+    for (var d = 0; d < days.length; d++) days[d].day = d + 1;
+    var intervals = [1, 2, 4, 7, 15];
+    for (var d = 0; d < days.length; d++) {
+      days[d].reviewFormulas = [];
+      for (var ei = 0; ei < intervals.length; ei++) {
+        var srcDayIdx = d - intervals[ei];
+        if (srcDayIdx >= 0 && srcDayIdx < days.length && days[srcDayIdx].newFormulas) {
+          for (var fi = 0; fi < days[srcDayIdx].newFormulas.length; fi++) {
+            var fk = days[srcDayIdx].newFormulas[fi];
+            if (days[d].newFormulas.indexOf(fk) < 0 && days[d].reviewFormulas.indexOf(fk) < 0) {
+              days[d].reviewFormulas.push(fk);
+            }
+          }
+        }
+      }
+    }
+    return {startDate:startDate, dailyTarget:dailyTarget, totalDays:days.length, days:days, generated:new Date().toISOString().slice(0,10)};
+  },
+
+  _splitChapter: function(ch, target) {
+    var total = ch.formulas, chunks = [];
+    for (var i = 0; i < total.length; i += target) {
+      chunks.push({formulas:total.slice(i, Math.min(i+target, total.length))});
+    }
+    return chunks;
+  },
+
+  getSessionCards: function(plan, dateStr, memRecords) {
+    var dayPlan = null;
+    for (var i = 0; i < plan.days.length; i++) {
+      var d = new Date(plan.startDate); d.setDate(d.getDate() + plan.days[i].day - 1);
+      if (d.toISOString().slice(0,10) === dateStr) { dayPlan = plan.days[i]; break; }
+    }
+    if (!dayPlan) return null;
+
+    var newCards = dayPlan.newFormulas.filter(function(key){
+      var rec = memRecords[key];
+      return !rec || (rec.status !== 'mastered' && rec.status !== 'memorized');
+    });
+    var reviewCards = dayPlan.reviewFormulas.filter(function(key){
+      var rec = memRecords[key];
+      return rec && rec.status !== 'mastered' && newCards.indexOf(key) < 0;
+    });
+    // Also add SM-2 overdue cards
+    for (var k in memRecords) {
+      var rec = memRecords[k];
+      if (rec.nextReview && rec.nextReview <= dateStr && rec.status !== 'mastered' && rec.status !== 'new'
+          && newCards.indexOf(k) < 0 && reviewCards.indexOf(k) < 0) {
+        reviewCards.push(k);
+      }
+    }
+    return {dayPlan:dayPlan, newCards:newCards, reviewCards:reviewCards};
+  }
+};
+
+// ====== ANIMATION UTILS ======
+var Animate = {
+  confetti: function(count) {
+    count = count || 50;
+    var colors = ['#f44336','#e91e63','#9c27b0','#2196f3','#4caf50','#ff9800','#ffeb3b','#00bcd4'];
+    for (var i = 0; i < count; i++) {
+      var piece = document.createElement('div'); piece.className = 'confetti-piece';
+      piece.style.left = Math.random()*100+'%';
+      piece.style.top = -(Math.random()*100)+'px';
+      piece.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.animationDelay = Math.random()*1+'s';
+      piece.style.animationDuration = (1.5+Math.random()*2)+'s';
+      piece.style.width = (6+Math.random()*10)+'px';
+      piece.style.height = (6+Math.random()*10)+'px';
+      document.body.appendChild(piece);
+      setTimeout(function(){piece.remove()}, 3000);
+    }
+  },
+
+  flashElement: function(el, cls) {
+    el.classList.add(cls);
+    setTimeout(function(){el.classList.remove(cls)}, 600);
+  }
+};
+
+// ====== TOAST HELPER (App.showToast already defined) ======
+
+// ====== RECITE MODE ======
+var Recite = {
+  _state: null, // {plan, sessionCards, queue, currentIdx, session:{cards,startTime}, taskDay}
+  _mascotEl: null,
+  _speechEl: null,
+
+  start: function(advance) {
+    var stored = Storage.load();
+    var today = new Date().toISOString().slice(0,10);
+
+    // Generate or reload plan (v2: sequential order)
+    if (!stored.plan || stored.plan.version !== 2) {
+      stored.plan = PlanGen.generate(today, stored.settings.recite.dailyGoal);
+      stored.plan.version = 2;
+      Storage.save();
+    }
+
+    var sc = PlanGen.getSessionCards(stored.plan, today, stored.memRecords);
+
+    // Check if today's plan is completed
+    var todayLog = stored.dailyLogs[today];
+    var todayCompleted = todayLog && todayLog.sessions && todayLog.sessions.length > 0;
+    var todayAllDone = sc && sc.newCards.length === 0 && sc.reviewCards.length === 0;
+
+    if (advance) {
+      // Force advance: find next unfinished day
+      var nextSc = null, nextDayIdx = -1;
+      for (var di = 0; di < stored.plan.days.length; di++) {
+        var d = new Date(stored.plan.startDate); d.setDate(d.getDate() + stored.plan.days[di].day - 1);
+        var ds = d.toISOString().slice(0,10);
+        if (ds < today) continue;
+        var check = PlanGen.getSessionCards(stored.plan, ds, stored.memRecords);
+        if (check && (check.newCards.length > 0 || check.reviewCards.length > 0)) {
+          nextSc = check; nextDayIdx = di; break;
+        }
+      }
+      if (nextSc && (nextSc.newCards.length > 0 || nextSc.reviewCards.length > 0)) {
+        sc = nextSc;
+        App.showToast('已进入第'+(nextDayIdx+1)+'天内容');
+      } else {
+        App.showToast('🎉 全部279首方歌都已背过！');
+        return false;
+      }
+    }
+
+    if (!advance && todayCompleted && todayAllDone) {
+      // Today done but user hasn't chosen → return special state to show choice dialog
+      this._showChoice(todayLog.taskDay || 1);
+      return 'choice';
+    }
+
+    if (!sc || (sc.newCards.length === 0 && sc.reviewCards.length === 0)) {
+      App.showToast('今天没有需要背诵的内容');
+      return false;
+    }
+
+    // Build card queue: review first, then new; with wrong-answer re-insertion
+    var queue = [];
+    for (var i = 0; i < sc.reviewCards.length; i++) queue.push({key:sc.reviewCards[i], type:'review'});
+    for (var i = 0; i < sc.newCards.length; i++) queue.push({key:sc.newCards[i], type:'new'});
+
+    this._state = {
+      plan: stored.plan,
+      sessionCards: sc,
+      queue: queue,
+      currentIdx: 0,
+      session: {cards:[], startTime: new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})},
+      taskDay: sc.dayPlan ? sc.dayPlan.day : (stored.dailyLogs[today] ? stored.dailyLogs[today].taskDay : 1),
+      completed: false
+    };
+    return true;
+  },
+
+  nextCard: function(quality) {
+    var state = this._state; if (!state) return;
+    var card = state.queue[state.currentIdx];
+    if (!card) return;
+
+    // Show mascot reaction
+    var emotion = quality >= 2 ? 'cheer' : quality >= 1 ? 'think' : 'sad';
+    var mascotZone = document.getElementById('reciteMascotZone');
+    if (mascotZone) Mascot.show('recite', mascotZone, emotion);
+
+    // Record result
+    state.session.cards.push({formulaKey:card.key, quality:quality, time:new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})});
+    Storage.updateRecord(card.key, quality);
+
+    // Re-insert wrong answers into queue at random positions later
+    if (quality === 0) {
+      var reinsertCount = 2 + Math.floor(Math.random() * 3); // 2-4 times
+      for (var r = 0; r < reinsertCount; r++) {
+        var insertPos = state.currentIdx + 3 + Math.floor(Math.random() * Math.max(1, state.queue.length - state.currentIdx - 1));
+        if (insertPos < state.queue.length) state.queue.splice(insertPos, 0, {key:card.key, type:'review', reinsert:true});
+        else state.queue.push({key:card.key, type:'review', reinsert:true});
+      }
+    } else if (quality === 1) {
+      var pos = state.currentIdx + 4 + Math.floor(Math.random() * 3);
+      if (pos < state.queue.length) state.queue.splice(pos, 0, {key:card.key, type:'review', reinsert:true});
+      else state.queue.push({key:card.key, type:'review', reinsert:true});
+    }
+
+    state.currentIdx++;
+    var self = this;
+    setTimeout(function(){
+      if (self._state && state.currentIdx >= state.queue.length) {
+        self._finishSession();
+        return;
+      }
+      self._renderCard();
+    }, 400);
+  },
+
+  _finishSession: function() {
+    var state = this._state; if (!state) return;
+    state.completed = true;
+    var today = new Date().toISOString().slice(0,10);
+    var stored = Storage.load();
+    Storage.logSession(today, {
+      taskDay: state.taskDay,
+      startTime: state.session.startTime,
+      cards: state.session.cards,
+      newFormulas: state.sessionCards.newCards,
+      reviewFormulas: state.sessionCards.reviewCards,
+      score: state.session.cards.filter(function(c){return c.quality>=2;}).length
+    });
+    this._render();
+  },
+
+  render: function(m) {
+    this._state = null;
+    var result = this.start(false);
+    if (result === 'choice') return; // _showChoice already rendered
+    if (!result) { App.go('home'); return; }
+    this._render();
+  },
+
+  _showChoice: function(taskDay) {
+    var m = document.getElementById('mainContent');
+    m.innerHTML = '<div class="completion-screen">'+
+      '<div class="trophy">✅</div>'+
+      '<h2>第 '+taskDay+' 天已完成！</h2>'+
+      '<p style="color:var(--text-light);margin:12px 0">今天的背诵任务已经完成，你想：</p>'+
+      '<div style="margin-top:20px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">'+
+      '<button class="btn-back" onclick="Recite.startReviewToday()" style="background:var(--primary);font-size:1.05em;padding:14px 24px">🔄 再复习一遍今天</button>'+
+      '<button class="btn-back" onclick="Recite.startAdvance()" style="background:#ff9800;font-size:1.05em;padding:14px 24px">➡️ 开始背明天内容</button>'+
+      '</div>'+
+      '<div style="margin-top:12px"><button class="btn-back" onclick="App.go(\'home\')" style="background:transparent;color:var(--text-light);border:1px solid var(--accent)">🏠 返回首页</button></div>'+
+      '</div>';
+  },
+
+  startAdvance: function() {
+    this._state = null;
+    var result = this.start(true);
+    if (result === 'choice' || !result) { App.go('home'); return; }
+    this._render();
+  },
+
+  startReviewToday: function() {
+    this._state = null;
+    // Re-review just today's cards
+    var stored = Storage.load();
+    var today = new Date().toISOString().slice(0,10);
+    var todayLog = stored.dailyLogs[today];
+    var queue = [];
+    if (stored.plan) {
+      var sc = PlanGen.getSessionCards(stored.plan, today, stored.memRecords);
+      if (sc) {
+        var allKeys = [];
+        if (todayLog && todayLog.sessions) {
+          for (var si = 0; si < todayLog.sessions.length; si++) {
+            var cards = todayLog.sessions[si].cards || [];
+            for (var ci = 0; ci < cards.length; ci++) {
+              if (allKeys.indexOf(cards[ci].formulaKey) < 0) {
+                allKeys.push(cards[ci].formulaKey);
+              }
+            }
+          }
+        }
+        // Also include today's plan cards even if not yet reviewed
+        if (sc.dayPlan) {
+          for (var fi = 0; fi < sc.dayPlan.newFormulas.length; fi++) {
+            if (allKeys.indexOf(sc.dayPlan.newFormulas[fi]) < 0) {
+              allKeys.push(sc.dayPlan.newFormulas[fi]);
+            }
+          }
+          for (var ri = 0; ri < sc.dayPlan.reviewFormulas.length; ri++) {
+            if (allKeys.indexOf(sc.dayPlan.reviewFormulas[ri]) < 0) {
+              allKeys.push(sc.dayPlan.reviewFormulas[ri]);
+            }
+          }
+        }
+        for (var i = 0; i < allKeys.length; i++) {
+          queue.push({key: allKeys[i], type: 'review'});
+        }
+      }
+    }
+    if (queue.length === 0) {
+      App.showToast('今天还没有背诵内容');
+      App.go('home');
+      return;
+    }
+    this._state = {
+      plan: stored.plan,
+      sessionCards: {dayPlan:null, newCards:[], reviewCards:queue.map(function(q){return q.key;})},
+      queue: queue,
+      currentIdx: 0,
+      session: {cards:[], startTime: new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})},
+      taskDay: stored.dailyLogs[today] ? stored.dailyLogs[today].taskDay : 1,
+      completed: false
+    };
+    this._render();
+  },
+
+  startReview: function() {
+    // Force re-review of today's (or recent) cards regardless of mastery
+    var stored = Storage.load();
+    var today = new Date().toISOString().slice(0,10);
+    // Collect all recently studied cards from last 3 days of plan
+    var queue = [];
+    if (stored.plan) {
+      for (var di = Math.max(0, stored.plan.days.length-30); di < stored.plan.days.length; di++) {
+        var d = new Date(stored.plan.startDate); d.setDate(d.getDate() + stored.plan.days[di].day - 1);
+        var ds = d.toISOString().slice(0,10);
+        if (ds > today) break;
+        var recs = stored.memRecords || {};
+        for (var fi = 0; fi < stored.plan.days[di].newFormulas.length; fi++) {
+          var key = stored.plan.days[di].newFormulas[fi];
+          if (recs[key] && (recs[key].status==='memorized'||recs[key].status==='mastered'||recs[key].status==='learning')) {
+            if (queue.indexOf(key) < 0) queue.push({key:key, type:'review'});
+          }
+        }
+      }
+    }
+    if (queue.length === 0) {
+      // Fallback: all memorized formulas
+      var keys = Storage.getMemorizedKeys();
+      for (var i = 0; i < keys.length; i++) queue.push({key:keys[i], type:'review'});
+    }
+    if (queue.length === 0) { App.showToast('还没有已背诵的方歌'); App.go('home'); return; }
+
+    // Shuffle for variety
+    for (var i = queue.length-1; i > 0; i--) {
+      var j = Math.floor(Math.random()*(i+1));
+      var tmp = queue[i]; queue[i] = queue[j]; queue[j] = tmp;
+    }
+
+    // Limit to ~20 cards for review session
+    if (queue.length > 20) queue = queue.slice(0, 20);
+
+    this._state = {
+      plan: stored.plan,
+      sessionCards: {dayPlan:null, newCards:[], reviewCards:queue.map(function(q){return q.key;})},
+      queue: queue,
+      currentIdx: 0,
+      session: {cards:[], startTime: new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})},
+      taskDay: 0,
+      completed: false
+    };
+    this._render();
+  },
+
+  _render: function() {
+    var m = document.getElementById('mainContent');
+    var state = this._state; if (!state) return;
+
+    if (state.completed) {
+      var sessionCards = state.session.cards;
+      var mastered = sessionCards.filter(function(c){return c.quality>=2;}).length;
+      var normal = sessionCards.filter(function(c){return c.quality===1;}).length;
+      var forgot = sessionCards.filter(function(c){return c.quality===0;}).length;
+      m.innerHTML = '<div class="completion-screen">'+
+        '<div class="trophy">🏆</div>'+
+        '<h2>本次背诵完成！</h2>'+
+        '<div class="stats-summary">'+
+        '<div class="completion-summary-item"><div class="num" style="color:#4caf50">'+mastered+'</div><div class="lbl">🟢 熟练</div></div>'+
+        '<div class="completion-summary-item"><div class="num" style="color:#ff9800">'+normal+'</div><div class="lbl">🟡 一般</div></div>'+
+        '<div class="completion-summary-item"><div class="num" style="color:#f44336">'+forgot+'</div><div class="lbl">🔴 不会</div></div>'+
+        '</div>'+
+        '<p style="color:var(--text-light);margin:12px 0">第 '+state.taskDay+' 天 · 共 '+sessionCards.length+' 张卡片</p>'+
+        '<p style="color:var(--text-light);margin:8px 0;font-size:0.9em">选择下一步：</p>'+
+        '<div style="margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'+
+        '<button class="btn-back" onclick="Recite.startReviewToday()" style="background:var(--primary);font-size:1.05em;padding:14px 24px">🔄 复习今天内容</button>'+
+        '<button class="btn-back" onclick="Recite.startAdvance()" style="background:#ff9800;font-size:1.05em;padding:14px 24px">➡️ 直接背下一天</button>'+
+        '</div>'+
+        '<div style="margin-top:10px"><button class="btn-back" onclick="App.go(\'home\')" style="background:transparent;color:var(--text-light);border:1px solid var(--accent)">🏠 返回首页</button></div>'+
+        '</div>';
+      Mascot.show('recite', m.querySelector('.completion-screen'), 'finish');
+      Animate.confetti(40);
+      return;
+    }
+
+    var card = state.queue[state.currentIdx];
+    if (!card) { App.go('home'); return; }
+    var keyParts = card.key.split('_');
+    var si = parseInt(keyParts[0]), fi = parseInt(keyParts[1]);
+    var formula = DATA[si].formulas[fi];
+    var progress = Math.round((state.currentIdx / Math.max(1, state.queue.length)) * 100);
+
+    m.innerHTML = '<div class="mode-header">'+
+      '<div class="day-badge">📅 第'+state.taskDay+'天 · 第'+(Storage.load().dailyLogs[new Date().toISOString().slice(0,10)]?Storage.load().dailyLogs[new Date().toISOString().slice(0,10)].sessions.length+1:1)+'次</div>'+
+      '<div class="session-info">'+(card.type==='new'?'🆕 新学内容':'🔄 复习内容')+(card.reinsert?' · 重记':'' )+'</div>'+
+      '</div>'+
+      '<div class="progress-bar-container"><div class="progress-bar-fill" style="width:'+progress+'%"></div></div>'+
+      '<div class="progress-labels"><span>'+state.currentIdx+' / '+state.queue.length+'</span><span>'+progress+'%</span></div>'+
+      '<br>'+
+      '<div class="mascot-zone" id="reciteMascotZone"></div>'+
+      '<div class="recite-card-container"><div class="recite-card" id="reciteCard">'+
+      '<span class="card-type-badge '+(card.type==='new'?'new':'review')+'">'+(card.type==='new'?'新学':'复习')+'</span>'+
+      '<span class="card-counter">'+(state.currentIdx+1)+'/'+state.queue.length+'</span>'+
+      '<div class="chapter-name">'+DATA[si].name+'</div>'+
+      '<div class="formula-name">'+formula.num+'. '+formula.name+'</div>'+
+      '<div class="formula-song">'+formula.song+'</div>'+
+      '</div></div>'+
+      '<div class="recite-buttons">'+
+      '<button class="btn-recite btn-mastered" onclick="Recite.nextCard(2)">✅ 熟练</button>'+
+      '<button class="btn-recite btn-normal" onclick="Recite.nextCard(1)">🟡 一般</button>'+
+      '<button class="btn-recite btn-forgot" onclick="Recite.nextCard(0)">🔴 不会</button>'+
+      '</div>';
+
+    Mascot.show('recite', document.getElementById('reciteMascotZone'), 'idle');
+    setTimeout(function(){
+      var cardEl = document.getElementById('reciteCard');
+      if (cardEl) { cardEl.style.animation = 'cardSlideInRight 0.4s ease-out'; }
+    }, 50);
+  },
+
+  _renderCard: function() {
+    var state = this._state; if (!state || state.completed) { this._render(); return; }
+    var m = document.getElementById('mainContent');
+    var card = state.queue[state.currentIdx];
+    var keyParts = card.key.split('_');
+    var si = parseInt(keyParts[0]), fi = parseInt(keyParts[1]);
+    var formula = DATA[si].formulas[fi];
+    var progress = Math.round((state.currentIdx / Math.max(1, state.queue.length)) * 100);
+
+    var cardEl = document.getElementById('reciteCard');
+    if (cardEl) {
+      cardEl.style.animation = 'cardSlideInRight 0.4s ease-out';
+      cardEl.querySelector('.card-type-badge').className = 'card-type-badge '+(card.type==='new'?'new':'review');
+      cardEl.querySelector('.card-type-badge').textContent = card.type==='new'?'新学':'复习';
+      cardEl.querySelector('.card-counter').textContent = (state.currentIdx+1)+'/'+state.queue.length;
+      cardEl.querySelector('.chapter-name').textContent = DATA[si].name;
+      cardEl.querySelector('.formula-name').textContent = formula.num+'. '+formula.name;
+      cardEl.querySelector('.formula-song').textContent = formula.song;
+    }
+    document.querySelector('.progress-bar-fill').style.width = progress+'%';
+    document.querySelector('.progress-labels').innerHTML = '<span>'+state.currentIdx+' / '+state.queue.length+'</span><span>'+progress+'%</span>';
+    document.querySelector('.session-info').textContent = (card.type==='new'?'🆕 新学内容':'🔄 复习内容')+(card.reinsert?' · 重记':'');
+    Mascot.show('recite', document.getElementById('reciteMascotZone'), 'idle');
+  }
+};
+
+// ====== BLANK MODE ======
+var Blank = {
+  _state: null,
+  _difficulty: 'medium',
+
+  start: function(difficulty) {
+    var memorizedKeys = Storage.getMemorizedKeys();
+    if (memorizedKeys.length === 0) { App.showToast('请先在背诵模式中背诵一些方歌！'); return false; }
+    this._difficulty = difficulty || 'medium';
+    this._state = {
+      keys: memorizedKeys.slice(), currentIdx: 0,
+      roundSize: Math.min(10, memorizedKeys.length),
+      score: 0, totalBlanks: 0, attempted: 0,
+      completed: false, queue: [], currentBlanks: null, showResult: false
+    };
+    var pool = memorizedKeys.slice();
+    for (var i = 0; i < this._state.roundSize && pool.length > 0; i++) {
+      var idx = Math.floor(Math.random() * pool.length);
+      this._state.queue.push(pool.splice(idx, 1)[0]);
+    }
+    return true;
+  },
+
+  _fuzzyMatch: function(user, correct) {
+    var u = user.replace(/\s+/g,'').replace(/[，。；、！？,.;!?\s]/g,'');
+    var c = correct.replace(/\s+/g,'').replace(/[，。；、！？,.;!?\s]/g,'');
+    return u === c;
+  },
+
+  _makeBlanks: function(key) {
+    var parts = key.split('_');
+    var formula = DATA[parseInt(parts[0])].formulas[parseInt(parts[1])];
+    var song = formula.song;
+    var blanks = [];
+
+    if (this._difficulty === 'shallow') {
+      var phrases = song.split(/[；。]/);
+      var offset = 0;
+      for (var i = 0; i < phrases.length; i++) {
+        var p = phrases[i].trim(); if (!p || p.length < 3) { offset += phrases[i].length + 1; continue; }
+        var len = Math.min(2, Math.floor(p.length / 3));
+        blanks.push({answer: p.substring(p.length - len), pos: offset + p.length - len, len: len});
+        offset += phrases[i].length + 1;
+      }
+    } else if (this._difficulty === 'medium') {
+      var blankCount = Math.max(3, Math.floor(song.length / 10));
+      var used = {};
+      for (var b = 0; b < blankCount; b++) {
+        for (var tries = 0; tries < 20; tries++) {
+          var startPos = Math.floor(Math.random() * Math.max(1, song.length - 3));
+          var len = 2 + Math.floor(Math.random() * 2);
+          var ok = true;
+          for (var u in used) { if (Math.abs(startPos - parseInt(u)) < 4) { ok = false; break; } }
+          if (ok) { used[startPos] = true; blanks.push({answer: song.substring(startPos, startPos+len), pos: startPos, len: len}); break; }
+        }
+      }
+    } else {
+      var phrases = song.split(/[；。]/);
+      var offset = 0;
+      for (var i = 0; i < phrases.length; i++) {
+        var p = phrases[i].trim(); if (!p || p.length < 4) { offset += phrases[i].length + 1; continue; }
+        if (Math.random() < 0.5) { blanks.push({answer: p, pos: offset, len: p.length}); }
+        offset += phrases[i].length + 1;
+      }
+      if (blanks.length === 0 && phrases.length > 0) {
+        var p0 = phrases[0].trim(); if (p0) blanks.push({answer: p0, pos: 0, len: p0.length});
+      }
+    }
+
+    blanks.sort(function(a,b){return a.pos - b.pos;});
+    var displayParts = [], lastEnd = 0;
+    for (var i = 0; i < blanks.length; i++) {
+      var bk = blanks[i];
+      displayParts.push(song.substring(lastEnd, bk.pos));
+      displayParts.push('<span class="blank-slot" id="bs_'+i+'">___</span>');
+      lastEnd = bk.pos + bk.len;
+    }
+    displayParts.push(song.substring(lastEnd));
+    return { name: formula.name, num: formula.num, blanks: blanks, displayHTML: displayParts.join(''), song: song };
+  },
+
+  checkAnswer: function() {
+    var state = this._state; if (!state || state.completed) return;
+    var qm = state.currentBlanks; if (!qm) return;
+    var allCorrect = true;
+    for (var i = 0; i < qm.blanks.length; i++) {
+      var inp = document.getElementById('bi_'+i);
+      var userAns = inp ? inp.value.trim() : '';
+      var correctAns = qm.blanks[i].answer;
+      var isCorrect = Blank._fuzzyMatch(userAns, correctAns);
+      if (isCorrect) state.score++; else allCorrect = false;
+      state.totalBlanks++;
+      var slot = document.getElementById('bs_'+i);
+      if (slot) { slot.textContent = correctAns; slot.style.color = isCorrect ? '#4caf50' : '#f44336'; slot.style.borderBottomColor = isCorrect ? '#4caf50' : '#f44336'; }
+      if (inp) inp.disabled = true;
+    }
+    state.attempted++;
+    var mz = document.getElementById('blankMascotZone');
+    if (allCorrect) { Storage.updateRecord(state.queue[0], 2); if (mz) Mascot.show('blank', mz, 'cheer'); }
+    else { if (mz) Mascot.show('blank', mz, 'sad'); }
+    state.showResult = true;
+    this._render();
+  },
+
+  nextBlank: function() {
+    var state = this._state; if (!state) return;
+    state.currentIdx++; state.showResult = false; state.currentBlanks = null;
+    if (state.currentIdx >= state.queue.length) state.completed = true;
+    this._render();
+  },
+
+  render: function(m) {
+    this._state = null;
+    m.innerHTML = '<button class="btn-back" onclick="App.go(\'home\')">← 返回首页</button>'+
+      '<div class="section-title"><span>✏️</span> 挖空挑战</div>'+
+      '<p style="color:var(--text-light);margin-bottom:12px">只填关键字，不用默写全文</p>'+
+      '<div class="blank-difficulty-select">'+
+      '<button class="btn-difficulty active" onclick="Blank.startRound(\'medium\',this)">🟡 中度（挖药名）</button>'+
+      '<button class="btn-difficulty" onclick="Blank.startRound(\'shallow\',this)">🟢 浅度（挖字尾）</button>'+
+      '<button class="btn-difficulty" onclick="Blank.startRound(\'deep\',this)">🔴 深度（挖整句）</button>'+
+      '</div><div id="blankGameArea"></div>';
+  },
+
+  startRound: function(difficulty, btnEl) {
+    var buttons = document.querySelectorAll('.btn-difficulty');
+    for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
+    if (btnEl) btnEl.classList.add('active');
+    if (!this.start(difficulty)) return;
+    this._render();
+  },
+
+  _render: function() {
+    var state = this._state; if (!state) return;
+    var area = document.getElementById('blankGameArea');
+    if (!area) { App.go('blank'); return; }
+
+    if (state.completed) {
+      var pct = state.totalBlanks > 0 ? Math.round(state.score / state.totalBlanks * 100) : 0;
+      var stars = pct >= 90 ? '⭐⭐⭐' : pct >= 60 ? '⭐⭐' : '⭐';
+      area.innerHTML = '<div class="completion-screen">'+
+        '<div class="trophy">'+stars+'</div><h2>挑战结束！</h2>'+
+        '<div class="final-score">'+state.score+'/'+state.totalBlanks+'</div>'+
+        '<p style="color:var(--text-light)">填空正确率 '+pct+'%</p>'+
+        '<div style="margin-top:20px">'+
+        '<button class="btn-back" onclick="Blank.startRound(Blank._difficulty)" style="margin-right:10px">🔄 再来一轮</button>'+
+        '<button class="btn-back" onclick="App.go(\'home\')">🏠 返回首页</button></div></div>';
+      Mascot.show('blank', area.querySelector('.completion-screen'), 'finish');
+      if (pct >= 80) Animate.confetti(30);
+      return;
+    }
+
+    if (state.currentIdx >= state.queue.length) { state.completed = true; this._render(); return; }
+
+    var qm = this._makeBlanks(state.queue[state.currentIdx]);
+    state.currentBlanks = qm;
+
+    var inputsHTML = '';
+    for (var i = 0; i < qm.blanks.length; i++) {
+      var b = qm.blanks[i];
+      inputsHTML += '<div style="display:flex;align-items:center;gap:8px;margin:6px 0">'+
+        '<span style="color:var(--text-light);font-size:0.8em;min-width:20px">['+(i+1)+']</span>'+
+        '<input type="text" id="bi_'+i+'" placeholder="填这里" style="padding:8px 12px;border:2px solid var(--accent);border-radius:8px;font-size:0.95em;width:200px;font-family:inherit"'+
+        (state.showResult ? ' disabled' : '')+'>'+
+        (state.showResult ? '<span style="font-size:0.85em;margin-left:4px">❌ '+b.answer+'</span>' : '')+
+        '</div>';
+    }
+
+    area.innerHTML = '<div class="mascot-zone" id="blankMascotZone"></div>'+
+      (state.attempted > 0 ? '<div style="text-align:center;color:var(--text-light);margin-bottom:8px">✅ 填空正确 '+state.score+'/'+state.totalBlanks+'</div>' : '')+
+      '<div class="blank-question">'+
+      '<div class="formula-name">'+qm.num+'. '+qm.name+'</div>'+
+      '<div style="font-size:1.05em;line-height:2.4;color:var(--text);margin-top:8px">'+qm.displayHTML+'</div>'+
+      '</div>'+
+      '<div style="margin-top:12px">'+inputsHTML+'</div>'+
+      '<div style="text-align:center;margin-top:16px">'+
+      (state.showResult ?
+        '<button class="btn-back" onclick="Blank.nextBlank()" style="background:var(--primary)">➡️ 下一题</button>' :
+        '<button class="btn-blank-submit" onclick="Blank.checkAnswer()" style="font-size:1.1em;padding:12px 36px">📝 提交</button>')+
+      '</div>'+
+      '<p style="text-align:center;color:var(--text-light);font-size:0.85em;margin-top:8px">'+(state.attempted+1)+'/'+state.queue.length+' 题</p>';
+
+    Mascot.show('blank', document.getElementById('blankMascotZone'), state.showResult ? 'think' : 'idle');
+    if (!state.showResult) {
+      var firstInp = document.getElementById('bi_0');
+      if (firstInp) setTimeout(function(){firstInp.focus()}, 200);
+    }
+  }
+};// ====== TEST MODE ======
+var Test = {
+  _state: null,
+
+  start: function() {
+    var memorizedKeys = Storage.getMemorizedKeys();
+    if (memorizedKeys.length === 0) { App.showToast('请先在背诵模式中背诵一些方歌！'); return false; }
+    if (memorizedKeys.length < 3) { App.showToast('至少需要背诵3首方歌才能抽背'); return false; }
+
+    this._state = {
+      candidateKeys: memorizedKeys.slice(),
+      currentKey: null,
+      totalTested: 0,
+      totalCorrect: 0,
+      completed: false,
+      lastAnswer: null,
+      lastOriginal: null,
+      showResult: false
+    };
+    return true;
+  },
+
+  _pickWeighted: function() {
+    var state = this._state;
+    var keys = state.candidateKeys;
+    // Calculate weights from errorWeights
+    var weights = keys.map(function(k){return Storage.getErrorWeight(k).weight;});
+    var totalWeight = weights.reduce(function(a,b){return a+b;}, 0);
+    var r = Math.random() * totalWeight;
+    var cumul = 0;
+    for (var i = 0; i < keys.length; i++) { cumul += weights[i]; if (r <= cumul) return keys[i]; }
+    return keys[keys.length - 1];
+  },
+
+  checkAnswer: function(userText) {
+    var state = this._state; if (!state || state.completed) return;
+    var parts = state.currentKey.split('_');
+    var formula = DATA[parseInt(parts[0])].formulas[parseInt(parts[1])];
+
+    var orig = this._normalize(formula.song);
+    var user = this._normalize(userText.trim());
+    var isCorrect = orig === user;
+
+    state.totalTested++;
+    Storage.updateErrorWeight(state.currentKey, isCorrect);
+    if (isCorrect) {
+      state.totalCorrect++;
+      Storage.updateRecord(state.currentKey, 2);
+    }
+    state.lastOriginal = formula.song;
+    state.lastAnswer = userText.trim();
+    state.showResult = true;
+    var mz = document.getElementById('testMascotZone');
+    if (mz) Mascot.show('test', mz, isCorrect ? 'cheer' : 'sad');
+    this._render();
+  },
+
+  _normalize: function(s) {
+    return s.replace(/\s+/g,'').replace(/[，。；、！？,.;!?]/g,'');
+  },
+
+  _diffText: function(original, user) {
+    var origChars = original.replace(/[，。；、！？\s]/g,'').split('');
+    var userChars = user.replace(/[，。；、！？\s]/g,'').split('');
+    // Simple diff: compare character by character
+    var result = '';
+    var maxLen = Math.max(origChars.length, userChars.length);
+    for (var i = 0; i < maxLen; i++) {
+      var oc = origChars[i] || '';
+      var uc = userChars[i] || '';
+      if (oc === uc) result += oc;
+      else result += '<span class="diff-mismatch">'+(uc||'⬜')+'</span>';
+      // Insert Chinese punctuation periodically
+      if ((i+1)%7===0 && i>0) result += ' ';
+    }
+    return result;
+  },
+
+  nextFormula: function() {
+    var state = this._state; if (!state) return;
+    state.showResult = false;
+    state.lastAnswer = null;
+    state.lastOriginal = null;
+    state.currentKey = this._pickWeighted();
+    this._render();
+  },
+
+  render: function(m) {
+    this._state = null;
+    if (!this.start()) { App.go('home'); return; }
+    var state = this._state;
+    state.currentKey = this._pickWeighted();
+    this._render();
+  },
+
+  _render: function() {
+    var m = document.getElementById('mainContent');
+    var state = this._state; if (!state) return;
+    if (state.completed) {
+      var pct = state.totalTested > 0 ? Math.round(state.totalCorrect/state.totalTested*100) : 0;
+      m.innerHTML = '<div class="completion-screen">'+
+        '<div class="trophy">🎯</div><h2>抽背完成！</h2>'+
+        '<div class="final-score">'+state.totalCorrect+'/'+state.totalTested+'</div><p style="color:var(--text-light)">正确率 '+pct+'%</p>'+
+        '<div style="margin-top:20px"><button class="btn-back" onclick="App.go(\'test\')" style="margin-right:10px">🔄 继续抽背</button>'+
+        '<button class="btn-back" onclick="App.go(\'home\')">🏠 返回首页</button></div></div>';
+      Mascot.show('test', m.querySelector('.completion-screen'), 'finish');
+      if (pct >= 80) Animate.confetti(40);
+      return;
+    }
+
+    var parts = state.currentKey.split('_');
+    var formula = DATA[parseInt(parts[0])].formulas[parseInt(parts[1])];
+    var chapterName = DATA[parseInt(parts[0])].name;
+
+    var resultHTML = '';
+    if (state.showResult) {
+      resultHTML = '<div class="diff-container">'+
+        '<div class="diff-panel original"><h4>✅ 原文</h4><div class="diff-content">'+state.lastOriginal+'</div></div>'+
+        '<div class="diff-panel user"><h4>✍️ 你的答案</h4><div class="diff-content">'+this._diffText(state.lastOriginal, state.lastAnswer)+'</div></div>'+
+        '</div><div style="text-align:center;margin-top:12px"><button class="btn-back" onclick="Test.nextFormula()" style="background:var(--primary)">➡️ 下一题</button>'+
+        '<button class="btn-back" onclick="App.go(\'home\')">🏠 返回首页</button></div>';
+    }
+
+    m.innerHTML = '<button class="btn-back" onclick="App.go(\'home\')">← 返回首页</button>'+
+      '<div class="section-title"><span>🎯</span> 抽背模式</div>'+
+      '<div class="mascot-zone" id="testMascotZone"></div>'+
+      '<div class="test-prompt">'+
+      '<div class="formula-name-test">'+formula.num+'. '+formula.name+'</div>'+
+      '<div class="chapter-hint">📖 '+chapterName+'</div>'+
+      '</div>'+
+      (state.showResult ? resultHTML :
+        '<textarea class="test-input-area" id="testInput" placeholder="在此默写方歌全文..."></textarea>'+
+        '<div class="test-submit-row"><button class="btn-test-submit" onclick="Test.checkAnswer(document.getElementById(\'testInput\').value)">📝 提交</button></div>')+
+      '<div style="text-align:center;color:var(--text-light);margin-top:16px">'+
+      '已测 '+state.totalTested+' 题 · 正确 '+state.totalCorrect+' 题'+
+      ' · <a style="color:var(--primary);cursor:pointer" onclick="Test._state.completed=true;Test._render()">结束测试</a></div>';
+
+    Mascot.show('test', document.getElementById('testMascotZone'), state.showResult ? 'think' : 'idle');
+    var inp = document.getElementById('testInput');
+    if (inp) setTimeout(function(){inp.focus()}, 200);
+  }
+};
+
+// ====== MASCOT SYSTEM ======
+var Mascot = {
+  _currentMode: null,
+
+  show: function(mode, container, emotion) {
+    if (!container) return;
+    this._currentMode = mode;
+    var mascotHTML = '';
+    if (mode === 'recite') mascotHTML = this._scholarHTML(emotion);
+    else if (mode === 'blank') mascotHTML = this._herbalistHTML(emotion);
+    else if (mode === 'test') mascotHTML = this._examinerHTML(emotion);
+
+    var phrase = this._getPhrase(emotion, mode);
+    container.innerHTML = '<div class="mascot-container" id="mascotEl">'+mascotHTML+'</div>'+
+      '<div class="mascot-speech show">'+phrase+'</div>';
+
+    // Animate the mascot
+    var mascotEl = document.getElementById('mascotEl');
+    if (mascotEl) {
+      var animClass = emotion==='cheer'?'mascot-bounce':emotion==='sad'?'mascot-shake':emotion==='finish'?'mascot-jump':emotion==='surprised'?'mascot-wave':'';
+      if (animClass) { mascotEl.classList.add(animClass); setTimeout(function(){mascotEl.classList.remove(animClass)}, 800); }
+    }
+  },
+
+  _scholarHTML: function(emotion) {
+    return '<div class="mascot-scholar" data-emotion="'+emotion+'">'+
+      '<div class="ms-hair"></div><div class="ms-head"><div class="ms-eye-l"></div><div class="ms-eye-r"></div>'+
+      '<div class="ms-mouth"></div><div class="ms-blush-l"></div><div class="ms-blush-r"></div></div>'+
+      '<div class="ms-body"></div><div class="ms-arm-l"></div><div class="ms-arm-r"></div><div class="ms-scroll"></div></div>';
+  },
+
+  _herbalistHTML: function(emotion) {
+    return '<div class="mascot-herbalist" data-emotion="'+emotion+'">'+
+      '<div class="mh-hat"></div><div class="mh-head"><div class="mh-eye-l"></div><div class="mh-eye-r"></div>'+
+      '<div class="mh-mouth"></div><div class="mh-blush-l"></div><div class="mh-blush-r"></div></div>'+
+      '<div class="mh-body"></div><div class="mh-arm-l"></div><div class="mh-arm-r"></div><div class="mh-basket"></div></div>';
+  },
+
+  _examinerHTML: function(emotion) {
+    return '<div class="mascot-examiner" data-emotion="'+emotion+'">'+
+      '<div class="me-hat"></div><div class="me-head"><div class="me-eye-l"></div><div class="me-eye-r"></div>'+
+      '<div class="me-glasses"></div><div class="me-mouth"></div><div class="me-blush-l"></div><div class="me-blush-r"></div></div>'+
+      '<div class="me-body"></div><div class="me-arm-l"></div><div class="me-arm-r"></div><div class="me-brush"></div></div>';
+  },
+
+  _getPhrase: function(emotion, mode) {
+    var phrases = {
+      correct: ['太棒了！🎉','滚瓜烂熟！','真厉害！','倒背如流！','完美！'],
+      wrong: ['没关系，再看看！','差一点点！','再试一次吧！','别灰心，坚持下去！'],
+      finish: ['今天的任务完成了！','了不起！','坚持就是胜利！','明天继续加油！'],
+      idle: {recite:'准备好了吗？开始背诵吧！',blank:'来填几个空试试看！',test:'让我考考你！'},
+      think: ['让我想想...','嗯...这个有点难？'],
+      sad: ['可惜！','哦不！'],
+      surprised: ['哇！','好厉害！']
+    };
+    var pool = phrases[emotion];
+    if (!pool) return '加油！💪';
+    if (typeof pool === 'object' && !Array.isArray(pool)) pool = pool[mode] || pool.recite || '加油！💪';
+    if (Array.isArray(pool)) return pool[Math.floor(Math.random()*pool.length)];
+    return pool;
+  }
+};
+
+// fix: map Blank/Test go references
+Blank.goRef = function() { App.go('blank'); };
+Test.goRef = function() { App.go('test'); };
+
+// ====== INIT ======
+document.getElementById("footer").textContent = "考研方歌 · 中医传承 · "+TF+" 首方歌";
+try {
+  App.render();
+} catch(e) {
+  document.getElementById("mainContent").innerHTML = '<div style="text-align:center;padding:40px;color:#c62828"><h2>⚠️ 加载出错</h2><p>请清除浏览器数据后重试</p><button class="btn-back" onclick="localStorage.clear();location.reload()" style="background:#f44336">清除数据并刷新</button><p style="font-size:0.8em;color:#999;margin-top:12px">错误：'+e.message+'</p></div>';
+  document.getElementById("footer").textContent = "考研方歌 · 加载失败";
+}
+</script>
+</body>
+</html>
