@@ -123,7 +123,8 @@ body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;b
 .recite-card .card-type-badge.review{background:#ff9800}
 .recite-card .chapter-name{font-size:0.9em;color:var(--text-light);margin-bottom:8px}
 .recite-card .formula-name{font-size:1.6em;font-weight:bold;color:var(--primary);margin-bottom:16px}
-.recite-card .formula-song{font-size:1.1em;line-height:2;color:var(--text);white-space:pre-line;word-break:keep-all;max-width:100%}
+.recite-card .formula-song{font-size:1.05em;line-height:1.9;color:var(--text);white-space:pre-line;padding:0 4px;max-width:100%}
+@media(max-width:600px){.recite-card .formula-song{font-size:0.9em;line-height:1.7}}
 .recite-card .card-counter{position:absolute;top:12px;right:12px;font-size:0.85em;color:var(--text-light)}
 .recite-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:600px;margin:0 auto}
 .btn-recite{padding:12px 28px;border:none;border-radius:25px;font-size:1em;font-weight:bold;cursor:pointer;transition:all 0.2s;font-family:inherit;outline:none;min-width:100px}
@@ -138,7 +139,8 @@ body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;b
 .blank-container{max-width:650px;margin:0 auto}
 .blank-question{background:var(--card-bg);border-radius:16px;padding:28px 24px;box-shadow:0 4px 16px var(--shadow);text-align:center;margin-bottom:16px}
 .blank-question .formula-name{font-size:1.3em;font-weight:bold;color:var(--primary);margin-bottom:12px}
-.blank-question .formula-song-blanked{font-size:1.1em;line-height:2.2;color:var(--text);white-space:pre-line;word-break:keep-all}
+.blank-question .formula-song-blanked{font-size:1em;line-height:2;color:var(--text);white-space:pre-line;padding:0 4px}
+@media(max-width:600px){.blank-question .formula-song-blanked{font-size:0.85em;line-height:1.8}}
 .blank-question .blank-slot{display:inline-block;min-width:60px;border-bottom:3px solid var(--primary);margin:0 4px;padding:2px 8px;animation:blankPulse 2s infinite}
 @keyframes blankPulse{0%,100%{border-color:var(--primary)}50%{border-color:var(--accent)}}
 .blank-input-row{display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
@@ -289,7 +291,8 @@ body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;b
 .formula-card .fh{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--accent)}
 .formula-card .fnum{background:var(--primary);color:#fff;min-width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85em;font-weight:bold;flex-shrink:0}
 .formula-card .fn{font-size:1.15em;font-weight:bold;color:var(--primary)}
-.formula-card .fsong{font-size:1.05em;line-height:2;color:var(--text);white-space:pre-line;word-break:keep-all}
+.formula-card .fsong{font-size:1.05em;line-height:2;color:var(--text);white-space:pre-line;word-break:break-all;padding:0 4px}
+@media(max-width:600px){.formula-card .fsong{font-size:0.95em;line-height:1.8}}
 
 /* ====== CONFETTI ====== */
 .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;animation:confettiDrop 2s ease-out forwards}
